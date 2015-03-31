@@ -50,7 +50,7 @@ public class TasteItClientImpl implements TasteItClient {
     @Override
     public GenerateTokenResponse generateAccessToken(GenerateTokenRequest request)
             throws TasteItClientException, TasteItServiceException {
-        Response response = webTarget.path("/token").request(MediaType.APPLICATION_JSON)
+        Response response = webTarget.path("/v1/token").request(MediaType.APPLICATION_JSON)
                 .post(Entity.entity(request, MediaType.APPLICATION_JSON));
         
         GenerateTokenResponse token = ResponseHandler.readEntity(response, GenerateTokenResponse.class);
@@ -69,7 +69,7 @@ public class TasteItClientImpl implements TasteItClient {
     @Override
     public GetRestaurantResponse getRestaurant(GetRestaurantRequest request) 
             throws TasteItClientException, TasteItServiceException {
-        Response response = webTarget.path("v1/customer/restaurant/").queryParam(GetRestaurantRequest.GEO_RESTAURANT_ID, request.getRestaurantId())
+        Response response = webTarget.path("/v1/customers/restaurant").queryParam(GetRestaurantRequest.GEO_RESTAURANT_ID, request.getRestaurantId())
                 .request(MediaType.APPLICATION_JSON).get();
 
         GetRestaurantResponse restaurant = ResponseHandler.readEntity(response, GetRestaurantResponse.class);
@@ -79,7 +79,7 @@ public class TasteItClientImpl implements TasteItClient {
     @Override
     public GetRestaurantMenuResponse getRestaurantMenu(GetRestaurantRequest request) 
             throws TasteItClientException, TasteItServiceException {
-        Response response = webTarget.path("v1/customer/restaurant/menu").queryParam(GetRestaurantRequest.GEO_RESTAURANT_ID, request.getRestaurantId())
+        Response response = webTarget.path("/v1/customers/restaurant/menu").queryParam(GetRestaurantRequest.GEO_RESTAURANT_ID, request.getRestaurantId())
                 .request(MediaType.APPLICATION_JSON).get();
 
         GetRestaurantMenuResponse restaurantMenu = ResponseHandler.readEntity(response, GetRestaurantMenuResponse.class);
