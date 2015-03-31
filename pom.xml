@@ -85,6 +85,22 @@
 	
 	<build>
 		<plugins>
+			<plugin>
+				<!-- The maven-compiler-plugin is used to compile the sources of your 
+					project. Check http://maven.apache.org/plugins/maven-compiler-plugin for 
+					more information -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<inherited>true</inherited>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<showDeprecation>true</showDeprecation>
+					<showWarnings>true</showWarnings>
+				</configuration>
+			</plugin>
+		
 	        <plugin>
             	<groupId>com.github.github</groupId>
             	<artifactId>site-maven-plugin</artifactId>
