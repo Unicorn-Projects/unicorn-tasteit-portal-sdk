@@ -1,11 +1,15 @@
 package io.tasteit.rest.client.impl;
 
-import io.tasteit.rest.activities.exception.BadRequestException;
-import io.tasteit.rest.activities.exception.InternalServerErrorException;
-import io.tasteit.rest.activities.model.RestaurantDetail;
-import io.tasteit.rest.activities.model.request.RestaurantRequest;
+import io.tasteit.rest.client.PropertiesParser;
 import io.tasteit.rest.client.TasteItClient;
-import io.tasteit.rest.utils.PropertiesParser;
+import io.tasteit.rest.service.model.exception.TasteItClientException;
+import io.tasteit.rest.service.model.exception.TasteItServiceException;
+import io.tasteit.rest.service.model.request.GenerateTokenRequest;
+import io.tasteit.rest.service.model.request.GetRestaurantRequest;
+import io.tasteit.rest.service.model.request.RevokeTokenRequest;
+import io.tasteit.rest.service.model.response.GenerateTokenResponse;
+import io.tasteit.rest.service.model.response.GetRestaurantMenuResponse;
+import io.tasteit.rest.service.model.response.GetRestaurantResponse;
 
 import java.io.IOException;
 import java.net.URI;
@@ -13,6 +17,7 @@ import java.net.URI;
 import javax.annotation.Nonnull;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -77,18 +82,43 @@ public class TasteItClientImpl implements TasteItClient {
     public void close() throws IOException {
         client.close();
     }
+    
+    @Override
+    public GenerateTokenResponse generateAccessToken(GenerateTokenRequest request)
+            throws TasteItClientException, TasteItServiceException {
+        Response response = webTarget.path("/token").request(MediaType.APPLICATION_JSON)
+                .post(Entity.entity(request, MediaType.APPLICATION_JSON));
+        
+        GenerateTokenResponse token = ResponseHandler.readEntity(response, GenerateTokenResponse.class);
+        return token;
+    }
 
     @Override
-    public RestaurantDetail getRestaurantDetail(RestaurantRequest request) 
-            throws BadRequestException, InternalServerErrorException {
-        Response response = webTarget.path("v1/restaurants/detail").queryParam(RestaurantRequest.GEO_RESTAURANT_ID, request.getRestaurantId())
+    public void revokeAccessToken(RevokeTokenRequest request)
+            throws TasteItClientException, TasteItServiceException {
+        Response response = webTarget.queryParam(RevokeTokenRequest.TOKEN_TYPE, request.getTokenType())
+                .queryParam(RevokeTokenRequest.TOKEN, request.getToken()).queryParam(RevokeTokenRequest.PRINCIPAL, request.getPrincipal()).request(MediaType.APPLICATION_JSON).delete();
+        
+        ResponseHandler.checkException(response);
+    }
+
+    @Override
+    public GetRestaurantResponse getRestaurant(GetRestaurantRequest request) 
+            throws TasteItClientException, TasteItServiceException {
+        Response response = webTarget.path("v1/customer/restaurant/").queryParam(GetRestaurantRequest.GEO_RESTAURANT_ID, request.getRestaurantId())
                 .request(MediaType.APPLICATION_JSON).get();
 
-        ResponseHandler<RestaurantDetail> responseHandler = new ResponseHandler<>(RestaurantDetail.class);
+        GetRestaurantResponse restaurant = ResponseHandler.readEntity(response, GetRestaurantResponse.class);
+        return restaurant;
+    }
 
-        RestaurantDetail restaurantDetail = responseHandler.readEntity(response);
-        System.out.println(restaurantDetail);
-        
-        return restaurantDetail;
+    @Override
+    public GetRestaurantMenuResponse getRestaurantMenu(GetRestaurantRequest request) 
+            throws TasteItClientException, TasteItServiceException {
+        Response response = webTarget.path("v1/customer/restaurant/menu").queryParam(GetRestaurantRequest.GEO_RESTAURANT_ID, request.getRestaurantId())
+                .request(MediaType.APPLICATION_JSON).get();
+
+        GetRestaurantMenuResponse restaurantMenu = ResponseHandler.readEntity(response, GetRestaurantMenuResponse.class);
+        return restaurantMenu;
     }
 }

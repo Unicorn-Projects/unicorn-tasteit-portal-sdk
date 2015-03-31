@@ -25,6 +25,7 @@ public class JSONObjectMapperImpl implements ContextResolver<ObjectMapper> {
         .configure(SerializationFeature.FLUSH_AFTER_WRITE_VALUE, false)
         .configure(SerializationFeature.WRITE_DATE_KEYS_AS_TIMESTAMPS, true)
         .configure(DeserializationFeature.UNWRAP_ROOT_VALUE, false)
+        .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         .setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES)
         .setAnnotationIntrospector(createJaxbJacksonAnnotationIntrospector());
     }
