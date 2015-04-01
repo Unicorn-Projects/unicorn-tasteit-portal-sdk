@@ -6,16 +6,16 @@ import java.util.List;
 
 public class GetRestaurantMenuResponse {
     
-    private List<Cuisine> cuisines;
+    private List<Cuisine> restaurantCuisines;
     
     public GetRestaurantMenuResponse() {}
 
-    public List<Cuisine> getCuisines() {
-        return cuisines;
+    public List<Cuisine> getRestaurantCuisines() {
+        return restaurantCuisines;
     }
 
     @Override
     public String toString() {
-        return "GetRestaurantMenuResponse [cuisines=" + cuisines + "]";
+        return "GetRestaurantMenuResponse [restaurantCuisines=" + restaurantCuisines + "]";
     }
 }

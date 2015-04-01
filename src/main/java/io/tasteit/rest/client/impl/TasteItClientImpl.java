@@ -16,6 +16,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
@@ -23,6 +24,7 @@ import javax.ws.rs.core.UriBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.grizzly.connector.GrizzlyConnectorProvider;
+import org.glassfish.jersey.internal.util.Base64;
 
 public class TasteItClientImpl implements TasteItClient {
 
@@ -50,7 +52,7 @@ public class TasteItClientImpl implements TasteItClient {
     @Override
     public GenerateTokenResponse generateAccessToken(GenerateTokenRequest request)
             throws TasteItClientException, TasteItServiceException {
-        Response response = webTarget.path("/v1/token").request(MediaType.APPLICATION_JSON)
+        Response response = webTarget.path("/v1/tokens").request(MediaType.APPLICATION_JSON)
                 .post(Entity.entity(request, MediaType.APPLICATION_JSON));
         
         GenerateTokenResponse token = ResponseHandler.readEntity(response, GenerateTokenResponse.class);
@@ -60,27 +62,34 @@ public class TasteItClientImpl implements TasteItClient {
     @Override
     public void revokeAccessToken(RevokeTokenRequest request)
             throws TasteItClientException, TasteItServiceException {
-        Response response = webTarget.queryParam(RevokeTokenRequest.TOKEN_TYPE, request.getTokenType())
-                .queryParam(RevokeTokenRequest.TOKEN, request.getToken()).queryParam(RevokeTokenRequest.PRINCIPAL, request.getPrincipal()).request(MediaType.APPLICATION_JSON).delete();
+        Response response = webTarget.path("/v1/tokens").queryParam(RevokeTokenRequest.TOKEN_TYPE, request.getTokenType())
+                .queryParam(RevokeTokenRequest.TOKEN, request.getToken()).queryParam(RevokeTokenRequest.PRINCIPAL, request.getPrincipal()).request(MediaType.APPLICATION_JSON)
+                .delete();
         
         ResponseHandler.checkException(response);
     }
 
     @Override
-    public GetRestaurantResponse getRestaurant(GetRestaurantRequest request) 
+    public GetRestaurantResponse getRestaurant(GetRestaurantRequest request, GenerateTokenResponse token) 
             throws TasteItClientException, TasteItServiceException {
         Response response = webTarget.path("/v1/customers/restaurant").queryParam(GetRestaurantRequest.GEO_RESTAURANT_ID, request.getRestaurantId())
-                .request(MediaType.APPLICATION_JSON).get();
+                .request(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, 
+                        "Bearer " + Base64.encodeAsString(token.getPrincipal() + ":" + token.getAccessToken()))
+                .get();
 
         GetRestaurantResponse restaurant = ResponseHandler.readEntity(response, GetRestaurantResponse.class);
         return restaurant;
     }
 
     @Override
-    public GetRestaurantMenuResponse getRestaurantMenu(GetRestaurantRequest request) 
+    public GetRestaurantMenuResponse getRestaurantMenu(GetRestaurantRequest request, GenerateTokenResponse token) 
             throws TasteItClientException, TasteItServiceException {
         Response response = webTarget.path("/v1/customers/restaurant/menu").queryParam(GetRestaurantRequest.GEO_RESTAURANT_ID, request.getRestaurantId())
-                .request(MediaType.APPLICATION_JSON).get();
+                .request(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, 
+                        "Bearer " + Base64.encodeAsString(token.getPrincipal() + ":" + token.getAccessToken()))
+                .get();
 
         GetRestaurantMenuResponse restaurantMenu = ResponseHandler.readEntity(response, GetRestaurantMenuResponse.class);
         return restaurantMenu;

@@ -35,21 +35,23 @@ public interface TasteItClient {
     /**
      * Get restaurant
      * @param request
+     * @param token
      * @return GetRestaurantResponse
      * @throws TasteItClientException
      * @throws TasteItServiceException
      */
-    public GetRestaurantResponse getRestaurant(GetRestaurantRequest request) 
+    public GetRestaurantResponse getRestaurant(GetRestaurantRequest request, GenerateTokenResponse token) 
             throws TasteItClientException, TasteItServiceException;
     
     /**
      * Get restaurant menu
      * @param request
+     * @param token
      * @return GetRestaurantMenuResponse
      * @throws TasteItClientException
      * @throws TasteItServiceException
      */
-    public GetRestaurantMenuResponse getRestaurantMenu(GetRestaurantRequest request)
+    public GetRestaurantMenuResponse getRestaurantMenu(GetRestaurantRequest request, GenerateTokenResponse token)
             throws TasteItClientException, TasteItServiceException;
         
 }

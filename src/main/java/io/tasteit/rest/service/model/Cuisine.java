@@ -15,7 +15,7 @@ public class Cuisine {
     private Float imageRatio;
     private String imageUrl;
     private Float price;
-    private Boolean available;
+    private Boolean unavailable;
     private Long favorites;
     
     public Cuisine() {}
@@ -86,11 +86,11 @@ public class Cuisine {
     public void setPrice(Float price) {
         this.price = price;
     }
-    public Boolean getAvailable() {
-        return available;
+    public Boolean getUnavailable() {
+        return unavailable;
     }
-    public void setAvailable(Boolean available) {
-        this.available = available;
+    public void setUnavailable(Boolean available) {
+        this.unavailable = available;
     }
     public Long getFavorites() {
         return favorites;
@@ -101,7 +101,7 @@ public class Cuisine {
         final int prime = 31;
         int result = 1;
         result = prime * result
-                + ((available == null) ? 0 : available.hashCode());
+                + ((unavailable == null) ? 0 : unavailable.hashCode());
         result = prime * result
                 + ((cuisineCategory == null) ? 0 : cuisineCategory.hashCode());
         result = prime * result
@@ -137,10 +137,10 @@ public class Cuisine {
         if (getClass() != obj.getClass())
             return false;
         Cuisine other = (Cuisine) obj;
-        if (available == null) {
-            if (other.available != null)
+        if (unavailable == null) {
+            if (other.unavailable != null)
                 return false;
-        } else if (!available.equals(other.available))
+        } else if (!unavailable.equals(other.unavailable))
             return false;
         if (cuisineCategory == null) {
             if (other.cuisineCategory != null)
@@ -213,6 +213,6 @@ public class Cuisine {
                 + cuisineType + ", mealTypes=" + mealTypes + ", vegetarian="
                 + vegetarian + ", glutenFree=" + glutenFree + ", imageRatio="
                 + imageRatio + ", imageUrl=" + imageUrl + ", price=" + price
-                + ", available=" + available + ", favorites=" + favorites + "]";
+                + ", unavailable=" + unavailable + ", favorites=" + favorites + "]";
     }
 }

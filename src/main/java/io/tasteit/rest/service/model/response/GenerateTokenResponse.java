@@ -22,4 +22,10 @@ public class GenerateTokenResponse {
         return principal;
     }
     
+    @Override
+    public String toString() {
+        return "GenerateTokenResponse [tokenType=" + tokenType
+                + ", accessToken=" + accessToken + ", expireAt=" + expireAt
+                + ", principal=" + principal + "]";
+    }
 }
