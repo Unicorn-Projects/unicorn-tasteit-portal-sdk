@@ -77,6 +77,7 @@ public class ResponseHandler {
                         throw new TasteItServiceException(error);
                     }
                 } else {
+                    System.out.println(response.getStatus());
                     throw new TasteItServiceException();
                 } 
             }

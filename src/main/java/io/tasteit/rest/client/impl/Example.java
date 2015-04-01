@@ -12,7 +12,7 @@ import io.tasteit.rest.service.model.response.GetRestaurantResponse;
 public class Example {
     
     public static void main(String[] args) {
-        TasteItClientImpl client = new TasteItClientImpl("http://localhost", 8080);
+        TasteItClientImpl client = new TasteItClientImpl("https://api-gamma.tasteit.io", 443);
        
         GenerateTokenResponse token = client.generateAccessToken(new GenerateTokenRequest("test@tasteit.io", "password123456"));
         System.out.println(token);
