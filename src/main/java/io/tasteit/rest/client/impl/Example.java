@@ -18,7 +18,6 @@ public class Example {
         System.out.println(token);
         
         try {
-            
             GetRestaurantResponse restaurant = client.getRestaurant(new GetRestaurantRequest("c23n-83440033214612255"), token);
             System.out.println(restaurant);
             

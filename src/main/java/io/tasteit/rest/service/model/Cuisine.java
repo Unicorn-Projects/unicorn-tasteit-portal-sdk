@@ -18,8 +18,6 @@ public class Cuisine {
     private Boolean unavailable;
     private Long favorites;
     
-    public Cuisine() {}
-
     public String getCuisineId() {
         return cuisineId;
     }

@@ -9,8 +9,6 @@ public class RestaurantInfo {
     
     private String logoUrl;
     
-    public RestaurantInfo() {}
-
     public String getRestaurantId() {
         return restaurantId;
     }

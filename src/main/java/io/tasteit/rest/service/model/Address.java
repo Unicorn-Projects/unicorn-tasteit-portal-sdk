@@ -2,58 +2,56 @@ package io.tasteit.rest.service.model;
 
 public class Address {
 
-    private String localAddress;
+    private String localAddressLineOne;
+    private String localAddressLineTwo;
     private String city;
     private String zipCode;
     private String state;
     private String country;
     
-    public Address() {}
-
-    public String getLocalAddress() {
-        return localAddress;
+    public String getLocalAddressLineOne() {
+        return localAddressLineOne;
     }
-    public void setLocalAddress(String localAddress) {
-        this.localAddress = localAddress;
+    
+    public String getLocalAddressLineTwo() {
+        return localAddressLineTwo;
     }
+    
     public String getCity() {
         return city;
     }
-    public void setCity(String city) {
-        this.city = city;
-    }
+    
     public String getZipCode() {
         return zipCode;
     }
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
+    
     public String getState() {
         return state;
     }
-    public void setState(String state) {
-        this.state = state;
-    }
+    
     public String getCountry() {
         return country;
     }
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
+    
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((city == null) ? 0 : city.hashCode());
         result = prime * result + ((country == null) ? 0 : country.hashCode());
-        result = prime * result
-                + ((localAddress == null) ? 0 : localAddress.hashCode());
+        result = prime
+                * result
+                + ((localAddressLineOne == null) ? 0 : localAddressLineOne
+                        .hashCode());
+        result = prime
+                * result
+                + ((localAddressLineTwo == null) ? 0 : localAddressLineTwo
+                        .hashCode());
         result = prime * result + ((state == null) ? 0 : state.hashCode());
         result = prime * result + ((zipCode == null) ? 0 : zipCode.hashCode());
         return result;
     }
-
+    
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -73,10 +71,15 @@ public class Address {
                 return false;
         } else if (!country.equals(other.country))
             return false;
-        if (localAddress == null) {
-            if (other.localAddress != null)
+        if (localAddressLineOne == null) {
+            if (other.localAddressLineOne != null)
                 return false;
-        } else if (!localAddress.equals(other.localAddress))
+        } else if (!localAddressLineOne.equals(other.localAddressLineOne))
+            return false;
+        if (localAddressLineTwo == null) {
+            if (other.localAddressLineTwo != null)
+                return false;
+        } else if (!localAddressLineTwo.equals(other.localAddressLineTwo))
             return false;
         if (state == null) {
             if (other.state != null)
@@ -93,8 +96,9 @@ public class Address {
 
     @Override
     public String toString() {
-        return "Address [localAddress=" + localAddress + ", city=" + city
-                + ", zipCode=" + zipCode + ", state=" + state + ", country="
-                + country + "]";
+        return "Address [localAddressLineOne=" + localAddressLineOne
+                + ", localAddressLineTwo=" + localAddressLineTwo + ", city="
+                + city + ", zipCode=" + zipCode + ", state=" + state
+                + ", country=" + country + "]";
     }
 }

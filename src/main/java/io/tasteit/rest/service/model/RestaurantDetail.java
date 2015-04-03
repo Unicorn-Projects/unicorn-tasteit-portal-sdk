@@ -9,8 +9,6 @@ public class RestaurantDetail {
     private String contact;
     private String website;
     
-    public RestaurantDetail() {}
-
     public List<String> getImagesUrls() {
         return imagesUrls;
     }

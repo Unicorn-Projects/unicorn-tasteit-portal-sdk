@@ -1,19 +1,18 @@
 package io.tasteit.rest.service.model;
 
-import java.time.DayOfWeek;
 import java.util.List;
 import java.util.Map;
 
 public class RestaurantOpenHours {
 
-    private Map<String, Map<OpenHour, List<DayOfWeek>>> openHours;
+    private Map<String, List<WeekdaysOpenHour>> openHours;
 
     public RestaurantOpenHours() {}
 
-    public Map<String, Map<OpenHour, List<DayOfWeek>>> getOpenHours() {
+    public Map<String, List<WeekdaysOpenHour>> getOpenHours() {
         return openHours;
     }
-    public void setOpenHours(Map<String, Map<OpenHour, List<DayOfWeek>>> openHours) {
+    public void setOpenHours(Map<String, List<WeekdaysOpenHour>> openHours) {
         this.openHours = openHours;
     }
 

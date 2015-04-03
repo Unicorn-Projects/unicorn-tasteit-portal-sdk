@@ -1,8 +1,10 @@
 package io.tasteit.rest.service.model.response;
 
 import io.tasteit.rest.service.model.Address;
+import io.tasteit.rest.service.model.WeekdaysOpenHour;
 
 import java.util.List;
+import java.util.Map;
 
 public class GetRestaurantResponse {
 
@@ -25,7 +27,7 @@ public class GetRestaurantResponse {
     private String contact;
     private String website;
     
-//    private Map<String, Map<List<Integer>, OpenHour>> openHours;
+    private Map<String, List<WeekdaysOpenHour>> openHours;
     
     public GetRestaurantResponse() {}
     
@@ -77,9 +79,9 @@ public class GetRestaurantResponse {
     public String getWebsite() {
         return website;
     }
-//    public Map<String, Map<List<Integer>, OpenHour>> getOpenHours() {
-//        return openHours;
-//    }
+    public Map<String, List<WeekdaysOpenHour>> getOpenHours() {
+        return openHours;
+    }
 
     @Override
     public String toString() {
@@ -93,7 +95,7 @@ public class GetRestaurantResponse {
                 + ", followedCounter=" + followedCounter + ", ownerPrincipal="
                 + ownerPrincipal + ", imagesUrls=" + imagesUrls + ", address="
                 + address + ", contact=" + contact + ", website=" + website
-//                + ", openHours=" + openHours
+                + ", openHours=" + openHours
                 + "]";
     }
     

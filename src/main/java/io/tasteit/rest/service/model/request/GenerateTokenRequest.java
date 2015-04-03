@@ -6,7 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 
 public class GenerateTokenRequest {
 
-    @Nonnull private String grantType = "customer_credential";
+    @Nonnull private final String grantType = "customer_credential";
     @Nonnull private final String loginName;
     @Nonnull private final String credential;
     
@@ -18,15 +18,15 @@ public class GenerateTokenRequest {
         this.credential = credential;
     }
 
-    public @Nonnull String getGrantType() {
+    public String getGrantType() {
         return grantType;
     }
-    
-    public @Nonnull String getLoginName() {
+
+    public String getLoginName() {
         return loginName;
     }
 
-    public @Nonnull String getCredential() {
+    public String getCredential() {
         return credential;
     }
 }
