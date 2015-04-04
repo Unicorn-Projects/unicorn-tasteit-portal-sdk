@@ -34,5 +34,4 @@ public class UpdateRestaurantOpenHoursRequest {
         this.openHours = openHours;
     }
     
-    
 }

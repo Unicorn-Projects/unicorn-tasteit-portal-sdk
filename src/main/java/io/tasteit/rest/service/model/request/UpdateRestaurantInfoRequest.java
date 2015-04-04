@@ -10,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 public class UpdateRestaurantInfoRequest {
     
     @Nonnull private String restaurantId;
-    @Nullable private String restaurantName;
     @Nullable private List<String> cuisinesCategories;
     @Nullable private List<String> cuisinesTypes;
     @Nullable private List<String> mealsTypes;
@@ -24,14 +23,6 @@ public class UpdateRestaurantInfoRequest {
 
     public String getRestaurantId() {
         return restaurantId;
-    }
-
-    public String getRestaurantName() {
-        return restaurantName;
-    }
-
-    public void setRestaurantName(String restaurantName) {
-        this.restaurantName = restaurantName;
     }
 
     public List<String> getCuisinesCategories() {
@@ -57,4 +48,5 @@ public class UpdateRestaurantInfoRequest {
     public void setMealsTypes(List<String> mealsTypes) {
         this.mealsTypes = mealsTypes;
     }
+    
 }

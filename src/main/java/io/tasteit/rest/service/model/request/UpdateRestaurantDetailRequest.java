@@ -38,5 +38,4 @@ public class UpdateRestaurantDetailRequest {
         this.website = website;
     }
     
-    
 }
