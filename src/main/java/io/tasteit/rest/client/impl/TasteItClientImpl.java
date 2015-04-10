@@ -29,6 +29,7 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.lang3.StringUtils;
 import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.grizzly.connector.GrizzlyConnectorProvider;
 import org.glassfish.jersey.internal.util.Base64;
 
@@ -45,6 +46,8 @@ public class TasteItClientImpl implements TasteItClient {
             ClientConfig clientConfig = new ClientConfig().connectorProvider(new GrizzlyConnectorProvider());
             clientConfig.register(JSONObjectMapperImpl.class);
             this.client = ClientBuilder.newBuilder().withConfig(clientConfig).build();
+            this.client.property(ClientProperties.CONNECT_TIMEOUT, 1000);
+            this.client.property(ClientProperties.READ_TIMEOUT, 1000);
             this.webTarget = client.target(UriBuilder.fromUri(baseUrl).port(port).build());
         } catch (Exception error) {
             throw new RuntimeException("Failed while attempting to initialize TasteItClient", error);
