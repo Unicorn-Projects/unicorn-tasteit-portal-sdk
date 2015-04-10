@@ -1,22 +1,36 @@
 package io.tasteit.rest.client.impl;
 
+import io.tasteit.rest.service.model.exception.AccessDeniedException;
+import io.tasteit.rest.service.model.exception.InvalidRequestException;
+import io.tasteit.rest.service.model.request.GenerateTokenRequest;
+import io.tasteit.rest.service.model.request.GetRestaurantRequest;
+import io.tasteit.rest.service.model.response.GenerateTokenResponse;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 public class TasteItClientImplTest {
-//    
-//    @Test
-//    public void testGetRestaurantDetailHappyCase() {
-//        TasteItClientImpl client = TasteItClientImpl.get();
-//        client.getRestaurantDetail(new GetRestaurantRequest("c22y-71863204526927392"));
-//    }
-//    
-//    @Test(expected = ResourceNotFoundException.class)
-//    public void testGetRestaurantDetailWithBadRequestOne() {
-//        TasteItClientImpl client = TasteItClientImpl.get();
-//        client.getRestaurantDetail(new GetRestaurantRequest("c23n-8344003321461225"));
-//    }
-//    
-//    @Test(expected = InvalidRequestException.class)
-//    public void testGetRestaurantDetailWithBadRequestTwo() {
-//        TasteItClientImpl client = TasteItClientImpl.get();
-//        client.getRestaurantDetail(new GetRestaurantRequest("c23n8344003321461225"));
-//    }
+    private static TasteItClientImpl client;
+    private static GenerateTokenResponse token;
+    @BeforeClass
+    public static void setup() {
+        client = new TasteItClientImpl("https://api-gamma.tasteit.io", 443);
+        token = client.generateAccessToken(new GenerateTokenRequest("test@tasteit.io", "password123456"));
+    }
+    
+    @Test
+    public void testGetRestaurantDetailHappyCase() {
+        client.getRestaurant(new GetRestaurantRequest("c23n-83440033214612255"), token);
+    }
+    
+    @Test(expected = AccessDeniedException.class)
+    public void testGetRestaurantDetailWithBadRequestOne() {
+        client.getRestaurant(new GetRestaurantRequest("c23n-83442342344312"), token);
+    }
+    
+    @Test(expected = InvalidRequestException.class)
+    public void testGetRestaurantDetailWithBadRequestTwo() {
+        client.getRestaurant(new GetRestaurantRequest("c23n-83440033214612255qwq"), token);
+    }
+    
 }
