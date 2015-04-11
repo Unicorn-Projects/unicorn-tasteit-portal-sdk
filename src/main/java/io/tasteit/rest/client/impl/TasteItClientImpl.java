@@ -17,7 +17,10 @@ import io.tasteit.rest.service.model.response.GetRestaurantMenuResponse;
 import io.tasteit.rest.service.model.response.GetRestaurantResponse;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.Map.Entry;
 
+import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -26,6 +29,9 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.client.Invocation.Builder;
+
+import jersey.repackaged.com.google.common.collect.ImmutableMap;
 
 import org.apache.commons.lang3.StringUtils;
 import org.glassfish.jersey.client.ClientConfig;
@@ -46,8 +52,9 @@ public class TasteItClientImpl implements TasteItClient {
             ClientConfig clientConfig = new ClientConfig().connectorProvider(new GrizzlyConnectorProvider());
             clientConfig.register(JSONObjectMapperImpl.class);
             this.client = ClientBuilder.newBuilder().withConfig(clientConfig).build();
-            this.client.property(ClientProperties.CONNECT_TIMEOUT, 1000);
-            this.client.property(ClientProperties.READ_TIMEOUT, 1000);
+            // milliseconds
+            this.client.property(ClientProperties.CONNECT_TIMEOUT, 60000);
+            this.client.property(ClientProperties.READ_TIMEOUT, 60000);
             this.webTarget = client.target(UriBuilder.fromUri(baseUrl).port(port).build());
         } catch (Exception error) {
             throw new RuntimeException("Failed while attempting to initialize TasteItClient", error);
@@ -58,12 +65,54 @@ public class TasteItClientImpl implements TasteItClient {
         client.close();
     }
     
+    private Response post(String path, Object request) {
+        try {
+            return webTarget.path(path).request(MediaType.APPLICATION_JSON).post(Entity.entity(request, MediaType.APPLICATION_JSON));
+        } catch (ProcessingException ex) {
+            throw new TasteItClientException("Failed to process request", ex);
+        }
+    }
+    
+    private Builder authenticateRequest(Builder requestBuilder, GenerateTokenResponse token) {
+        return requestBuilder.header(HttpHeaders.AUTHORIZATION, "Bearer " + Base64.encodeAsString(token.getPrincipal() + ":" + token.getAccessToken()));
+    }
+    
+    private WebTarget appendParams(WebTarget target, Map<String, Object> params) {
+        for (Entry<String, Object> param : params.entrySet()) {
+            target = target.queryParam(param.getKey(), param.getValue().toString());
+        }
+        return target;
+    }
+    
+    private Response postWithAuthentication(String path, Object request, GenerateTokenResponse token) {
+        try {
+            return authenticateRequest(webTarget.path(path).request(MediaType.APPLICATION_JSON), token)
+                    .post(Entity.entity(request, MediaType.APPLICATION_JSON));
+        } catch (ProcessingException ex) {
+            throw new TasteItClientException("Failed to process request", ex);
+        }
+    }
+
+    private Response getWithAuthentication(String path, Map<String, Object> params, GenerateTokenResponse token) {
+        try {
+            return authenticateRequest(appendParams(webTarget.path(path), params).request(MediaType.APPLICATION_JSON), token).get();
+        } catch (ProcessingException ex) {
+            throw new TasteItClientException("Failed to process request", ex);
+        }
+    }
+    
+    private Response delete(String path, Map<String, Object> params) {
+        try {
+            return appendParams(webTarget.path(path), params).request(MediaType.APPLICATION_JSON).delete();
+        } catch (ProcessingException ex) {
+            throw new TasteItClientException("Failed to process request", ex);
+        }
+    }
+    
     @Override
     public GenerateTokenResponse generateAccessToken(GenerateTokenRequest request)
             throws TasteItClientException, TasteItServiceException {
-        Response response = webTarget.path("/v1/tokens").request(MediaType.APPLICATION_JSON)
-                .post(Entity.entity(request, MediaType.APPLICATION_JSON));
-        
+        Response response = post("v1/tokens", request);
         GenerateTokenResponse token = ResponseHandler.readEntity(response, GenerateTokenResponse.class);
         return token;
     }
@@ -71,21 +120,19 @@ public class TasteItClientImpl implements TasteItClient {
     @Override
     public void revokeAccessToken(RevokeTokenRequest request)
             throws TasteItClientException, TasteItServiceException {
-        Response response = webTarget.path("/v1/tokens").queryParam(RevokeTokenRequest.TOKEN_TYPE, request.getTokenType())
-                .queryParam(RevokeTokenRequest.TOKEN, request.getToken()).queryParam(RevokeTokenRequest.PRINCIPAL, request.getPrincipal()).request(MediaType.APPLICATION_JSON)
-                .delete();
+        Response response = delete("/v1/tokens",
+                ImmutableMap.of(RevokeTokenRequest.TOKEN_TYPE, request.getTokenType(), 
+                        RevokeTokenRequest.TOKEN, request.getToken(),
+                        RevokeTokenRequest.PRINCIPAL, request.getPrincipal()));
         
         ResponseHandler.checkException(response);
     }
-
+    
     @Override
     public GetRestaurantResponse getRestaurant(GetRestaurantRequest request, GenerateTokenResponse token) 
             throws TasteItClientException, TasteItServiceException {
-        Response response = webTarget.path("/v1/customers/restaurant").queryParam(GetRestaurantRequest.GEO_RESTAURANT_ID, request.getRestaurantId())
-                .request(MediaType.APPLICATION_JSON)
-                .header(HttpHeaders.AUTHORIZATION, 
-                        "Bearer " + Base64.encodeAsString(token.getPrincipal() + ":" + token.getAccessToken()))
-                .get();
+        Response response = getWithAuthentication("/v1/customers/restaurant", 
+                ImmutableMap.of(GetRestaurantRequest.GEO_RESTAURANT_ID, request.getRestaurantId()), token);
 
         GetRestaurantResponse restaurant = ResponseHandler.readEntity(response, GetRestaurantResponse.class);
         return restaurant;
@@ -94,23 +141,17 @@ public class TasteItClientImpl implements TasteItClient {
     @Override
     public GetRestaurantMenuResponse getRestaurantMenu(GetRestaurantRequest request, GenerateTokenResponse token) 
             throws TasteItClientException, TasteItServiceException {
-        Response response = webTarget.path("/v1/customers/restaurant/menu").queryParam(GetRestaurantRequest.GEO_RESTAURANT_ID, request.getRestaurantId())
-                .request(MediaType.APPLICATION_JSON)
-                .header(HttpHeaders.AUTHORIZATION, 
-                        "Bearer " + Base64.encodeAsString(token.getPrincipal() + ":" + token.getAccessToken()))
-                .get();
+        Response response = getWithAuthentication("/v1/customers/restaurant/menu", 
+                ImmutableMap.of(GetRestaurantRequest.GEO_RESTAURANT_ID, request.getRestaurantId()), token);
 
         GetRestaurantMenuResponse restaurantMenu = ResponseHandler.readEntity(response, GetRestaurantMenuResponse.class);
         return restaurantMenu;
     }
 
     @Override
-    public void updateRestaurantInfo(UpdateRestaurantInfoRequest request, GenerateTokenResponse token) throws TasteItClientException, TasteItServiceException {
-        Response response = webTarget.path("/v1/customers/restaurant/info")
-                .request(MediaType.APPLICATION_JSON)
-                .header(HttpHeaders.AUTHORIZATION, 
-                        "Bearer " + Base64.encodeAsString(token.getPrincipal() + ":" + token.getAccessToken()))
-                .post(Entity.entity(request, MediaType.APPLICATION_JSON));
+    public void updateRestaurantInfo(UpdateRestaurantInfoRequest request, GenerateTokenResponse token) 
+            throws TasteItClientException, TasteItServiceException {
+        Response response = postWithAuthentication("/v1/customers/restaurant/info", request, token);
         
         ResponseHandler.checkException(response);
     }
@@ -118,34 +159,22 @@ public class TasteItClientImpl implements TasteItClient {
     @Override
     public void updateRestaurantDetail(UpdateRestaurantDetailRequest request, GenerateTokenResponse token) throws TasteItClientException,
             TasteItServiceException {
-        Response response = webTarget.path("/v1/customers/restaurant/detail")
-                .request(MediaType.APPLICATION_JSON)
-                .header(HttpHeaders.AUTHORIZATION, 
-                        "Bearer " + Base64.encodeAsString(token.getPrincipal() + ":" + token.getAccessToken()))
-                .post(Entity.entity(request, MediaType.APPLICATION_JSON));
-        
+        Response response = postWithAuthentication("/v1/customers/restaurant/detail", request, token);
+
         ResponseHandler.checkException(response);
     }
 
     @Override
     public void updateRestaurantOpenHours(UpdateRestaurantOpenHoursRequest request, GenerateTokenResponse token) throws TasteItClientException,
             TasteItServiceException {
-        Response response = webTarget.path("/v1/customers/restaurant/openhour")
-                .request(MediaType.APPLICATION_JSON)
-                .header(HttpHeaders.AUTHORIZATION, 
-                        "Bearer " + Base64.encodeAsString(token.getPrincipal() + ":" + token.getAccessToken()))
-                .post(Entity.entity(request, MediaType.APPLICATION_JSON));
+        Response response = postWithAuthentication("/v1/customers/restaurant/openhour", request, token);
         
         ResponseHandler.checkException(response);
     }
 
     @Override
     public void updateCuisine(UpdateCuisineRequest request, GenerateTokenResponse token) throws TasteItClientException, TasteItServiceException {
-        Response response = webTarget.path("/v1/customers/cuisine")
-                .request(MediaType.APPLICATION_JSON)
-                .header(HttpHeaders.AUTHORIZATION, 
-                        "Bearer " + Base64.encodeAsString(token.getPrincipal() + ":" + token.getAccessToken()))
-                .post(Entity.entity(request, MediaType.APPLICATION_JSON));
+        Response response = postWithAuthentication("/v1/customers/cuisine", request, token);
         
         ResponseHandler.checkException(response);
     }
@@ -153,11 +182,7 @@ public class TasteItClientImpl implements TasteItClient {
     @Override
     public void markCuisineAvailable(ChangeCuisineAvailabilityRequest request, GenerateTokenResponse token) throws TasteItClientException,
             TasteItServiceException {
-        Response response = webTarget.path("/v1/customers/cuisine/available")
-                .request(MediaType.APPLICATION_JSON)
-                .header(HttpHeaders.AUTHORIZATION, 
-                        "Bearer " + Base64.encodeAsString(token.getPrincipal() + ":" + token.getAccessToken()))
-                .post(Entity.entity(request, MediaType.APPLICATION_JSON));
+        Response response = postWithAuthentication("/v1/customers/cuisine/available", request, token);
         
         ResponseHandler.checkException(response);
     }
@@ -165,20 +190,14 @@ public class TasteItClientImpl implements TasteItClient {
     @Override
     public void markCuisineUnavailable(ChangeCuisineAvailabilityRequest request, GenerateTokenResponse token) throws TasteItClientException,
             TasteItServiceException {
-        Response response = webTarget.path("/v1/customers/cuisine/unavailable")
-                .request(MediaType.APPLICATION_JSON)
-                .header(HttpHeaders.AUTHORIZATION, 
-                        "Bearer " + Base64.encodeAsString(token.getPrincipal() + ":" + token.getAccessToken()))
-                .post(Entity.entity(request, MediaType.APPLICATION_JSON));
+        Response response = postWithAuthentication("/v1/customers/cuisine/unavailable", request, token);
         
         ResponseHandler.checkException(response);
     }
 
     @Override
     public void resetCustomerCredential(ResetCustomerRequest request) throws TasteItClientException, TasteItServiceException {
-        Response response = webTarget.path("/v1/customers/profile/reset")
-                .request(MediaType.APPLICATION_JSON)
-                .post(Entity.entity(request, MediaType.APPLICATION_JSON));
+        Response response = post("/v1/customers/profile/reset", request);
         
         ResponseHandler.checkException(response);
     }

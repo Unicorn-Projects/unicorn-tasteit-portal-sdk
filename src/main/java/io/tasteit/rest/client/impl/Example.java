@@ -31,5 +31,6 @@ public class Example {
         } finally {
             client.revokeAccessToken(new RevokeTokenRequest(token.getTokenType(), token.getAccessToken(), token.getPrincipal()));
         }
+        System.exit(0);
     }
 }
