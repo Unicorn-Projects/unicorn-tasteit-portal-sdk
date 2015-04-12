@@ -1,4 +1,4 @@
-package io.tasteit.rest.client.impl;
+package io.tasteit.rest.service.client.impl;
 
 import io.tasteit.rest.service.model.exception.TasteItClientException;
 import io.tasteit.rest.service.model.exception.TasteItServiceException;
@@ -12,7 +12,7 @@ import io.tasteit.rest.service.model.response.GetRestaurantResponse;
 public class Example {
     
     public static void main(String[] args) {
-        TasteItClientImpl client = new TasteItClientImpl("https://api-gamma.tasteit.io", 443);
+        TasteItServiceClientImpl client = new TasteItServiceClientImpl("https://api-gamma.tasteit.io", 443);
        
         GenerateTokenResponse token = client.generateAccessToken(new GenerateTokenRequest("test@tasteit.io", "password123456"));
         System.out.println(token);

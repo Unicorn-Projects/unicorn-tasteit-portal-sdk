@@ -1,4 +1,4 @@
-package io.tasteit.rest.client;
+package io.tasteit.rest.service.client;
 
 import io.tasteit.rest.service.model.exception.TasteItClientException;
 import io.tasteit.rest.service.model.exception.TasteItServiceException;
@@ -18,7 +18,7 @@ import io.tasteit.rest.service.model.response.GenerateTokenResponse;
 import io.tasteit.rest.service.model.response.GetRestaurantMenuResponse;
 import io.tasteit.rest.service.model.response.GetRestaurantResponse;
 
-public interface TasteItClient {
+public interface TasteItServiceClient {
 
     
     /**

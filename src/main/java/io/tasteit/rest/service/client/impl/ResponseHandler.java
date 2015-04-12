@@ -1,4 +1,4 @@
-package io.tasteit.rest.client.impl;
+package io.tasteit.rest.service.client.impl;
 
 import io.tasteit.rest.service.model.exception.AccessDeniedException;
 import io.tasteit.rest.service.model.exception.BadRequestException;

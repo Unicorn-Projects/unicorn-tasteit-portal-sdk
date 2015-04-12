@@ -1,5 +1,6 @@
 package io.tasteit.rest.client.impl;
 
+import io.tasteit.rest.service.client.impl.TasteItServiceClientImpl;
 import io.tasteit.rest.service.model.exception.AccessDeniedException;
 import io.tasteit.rest.service.model.exception.InvalidRequestException;
 import io.tasteit.rest.service.model.request.GenerateTokenRequest;
@@ -10,11 +11,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class TasteItClientImplTest {
-    private static TasteItClientImpl client;
+    private static TasteItServiceClientImpl client;
     private static GenerateTokenResponse token;
     @BeforeClass
     public static void setup() {
-        client = new TasteItClientImpl("https://api-gamma.tasteit.io", 443);
+        client = new TasteItServiceClientImpl("https://api-gamma.tasteit.io", 443);
         token = client.generateAccessToken(new GenerateTokenRequest("test@tasteit.io", "password123456"));
     }
     

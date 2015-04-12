@@ -1,4 +1,4 @@
-package io.tasteit.rest.client.impl;
+package io.tasteit.rest.service.client.impl;
 
 import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;

@@ -1,6 +1,6 @@
-package io.tasteit.rest.client.impl;
+package io.tasteit.rest.service.client.impl;
 
-import io.tasteit.rest.client.TasteItClient;
+import io.tasteit.rest.service.client.TasteItServiceClient;
 import io.tasteit.rest.service.model.exception.TasteItClientException;
 import io.tasteit.rest.service.model.exception.TasteItServiceException;
 import io.tasteit.rest.service.model.request.ChangeCuisineAvailabilityRequest;
@@ -42,12 +42,12 @@ import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.grizzly.connector.GrizzlyConnectorProvider;
 
-public class TasteItClientImpl implements TasteItClient {
+public class TasteItServiceClientImpl implements TasteItServiceClient {
 
     private final Client client;
     private final WebTarget webTarget;
 
-    public TasteItClientImpl(String baseUrl, Integer port) {
+    public TasteItServiceClientImpl(String baseUrl, Integer port) {
         try {
             if (StringUtils.isBlank(baseUrl) || port == null) {
                 throw new IllegalArgumentException("baseUrl and port should not be null or empty");
