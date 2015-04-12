@@ -4,11 +4,14 @@ import io.tasteit.rest.client.TasteItClient;
 import io.tasteit.rest.service.model.exception.TasteItClientException;
 import io.tasteit.rest.service.model.exception.TasteItServiceException;
 import io.tasteit.rest.service.model.request.ChangeCuisineAvailabilityRequest;
+import io.tasteit.rest.service.model.request.DeletePromotionImageRequest;
 import io.tasteit.rest.service.model.request.GenerateTokenRequest;
 import io.tasteit.rest.service.model.request.GetRestaurantRequest;
+import io.tasteit.rest.service.model.request.PromotionImageUploadRequest;
 import io.tasteit.rest.service.model.request.ResetCustomerRequest;
 import io.tasteit.rest.service.model.request.RevokeTokenRequest;
 import io.tasteit.rest.service.model.request.UpdateCuisineRequest;
+import io.tasteit.rest.service.model.request.UpdatePromotionImageDisplayOrderRequest;
 import io.tasteit.rest.service.model.request.UpdateRestaurantDetailRequest;
 import io.tasteit.rest.service.model.request.UpdateRestaurantInfoRequest;
 import io.tasteit.rest.service.model.request.UpdateRestaurantOpenHoursRequest;
@@ -17,6 +20,7 @@ import io.tasteit.rest.service.model.response.GetRestaurantMenuResponse;
 import io.tasteit.rest.service.model.response.GetRestaurantResponse;
 
 import java.io.IOException;
+import java.util.Base64;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -37,7 +41,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.grizzly.connector.GrizzlyConnectorProvider;
-import org.glassfish.jersey.internal.util.Base64;
 
 public class TasteItClientImpl implements TasteItClient {
 
@@ -74,7 +77,8 @@ public class TasteItClientImpl implements TasteItClient {
     }
     
     private Builder authenticateRequest(Builder requestBuilder, GenerateTokenResponse token) {
-        return requestBuilder.header(HttpHeaders.AUTHORIZATION, "Bearer " + Base64.encodeAsString(token.getPrincipal() + ":" + token.getAccessToken()));
+        return requestBuilder.header(HttpHeaders.AUTHORIZATION, "Bearer " + 
+        Base64.getEncoder().encodeToString(String.valueOf(token.getPrincipal() + ":" + token.getAccessToken()).getBytes()));
     }
     
     private WebTarget appendParams(WebTarget target, Map<String, Object> params) {
@@ -109,9 +113,20 @@ public class TasteItClientImpl implements TasteItClient {
         }
     }
     
+    private Response deleteWithAuthentication(String path, Map<String, Object> params, GenerateTokenResponse token) {
+        try {
+            return authenticateRequest(appendParams(webTarget.path(path), params).request(MediaType.APPLICATION_JSON), token).delete();
+        } catch (ProcessingException ex) {
+            throw new TasteItClientException("Failed to process request", ex);
+        }
+    }
+    
     @Override
     public GenerateTokenResponse generateAccessToken(GenerateTokenRequest request)
             throws TasteItClientException, TasteItServiceException {
+        if (request == null) {
+            throw new TasteItClientException("one of the paramter is null", null);
+        }
         Response response = post("v1/tokens", request);
         GenerateTokenResponse token = ResponseHandler.readEntity(response, GenerateTokenResponse.class);
         return token;
@@ -120,6 +135,9 @@ public class TasteItClientImpl implements TasteItClient {
     @Override
     public void revokeAccessToken(RevokeTokenRequest request)
             throws TasteItClientException, TasteItServiceException {
+        if (request == null) {
+            throw new TasteItClientException("one of the paramter is null", null);
+        }
         Response response = delete("/v1/tokens",
                 ImmutableMap.of(RevokeTokenRequest.TOKEN_TYPE, request.getTokenType(), 
                         RevokeTokenRequest.TOKEN, request.getToken(),
@@ -131,6 +149,9 @@ public class TasteItClientImpl implements TasteItClient {
     @Override
     public GetRestaurantResponse getRestaurant(GetRestaurantRequest request, GenerateTokenResponse token) 
             throws TasteItClientException, TasteItServiceException {
+        if (request == null || token == null) {
+            throw new TasteItClientException("one of the paramter is null", null);
+        }
         Response response = getWithAuthentication("/v1/customers/restaurant", 
                 ImmutableMap.of(GetRestaurantRequest.GEO_RESTAURANT_ID, request.getRestaurantId()), token);
 
@@ -141,6 +162,9 @@ public class TasteItClientImpl implements TasteItClient {
     @Override
     public GetRestaurantMenuResponse getRestaurantMenu(GetRestaurantRequest request, GenerateTokenResponse token) 
             throws TasteItClientException, TasteItServiceException {
+        if (request == null || token == null) {
+            throw new TasteItClientException("one of the paramter is null", null);
+        }
         Response response = getWithAuthentication("/v1/customers/restaurant/menu", 
                 ImmutableMap.of(GetRestaurantRequest.GEO_RESTAURANT_ID, request.getRestaurantId()), token);
 
@@ -151,6 +175,9 @@ public class TasteItClientImpl implements TasteItClient {
     @Override
     public void updateRestaurantInfo(UpdateRestaurantInfoRequest request, GenerateTokenResponse token) 
             throws TasteItClientException, TasteItServiceException {
+        if (request == null || token == null) {
+            throw new TasteItClientException("one of the paramter is null", null);
+        }
         Response response = postWithAuthentication("/v1/customers/restaurant/info", request, token);
         
         ResponseHandler.checkException(response);
@@ -159,6 +186,9 @@ public class TasteItClientImpl implements TasteItClient {
     @Override
     public void updateRestaurantDetail(UpdateRestaurantDetailRequest request, GenerateTokenResponse token) throws TasteItClientException,
             TasteItServiceException {
+        if (request == null || token == null) {
+            throw new TasteItClientException("one of the paramter is null", null);
+        }
         Response response = postWithAuthentication("/v1/customers/restaurant/detail", request, token);
 
         ResponseHandler.checkException(response);
@@ -167,6 +197,9 @@ public class TasteItClientImpl implements TasteItClient {
     @Override
     public void updateRestaurantOpenHours(UpdateRestaurantOpenHoursRequest request, GenerateTokenResponse token) throws TasteItClientException,
             TasteItServiceException {
+        if (request == null || token == null) {
+            throw new TasteItClientException("one of the paramter is null", null);
+        }
         Response response = postWithAuthentication("/v1/customers/restaurant/openhour", request, token);
         
         ResponseHandler.checkException(response);
@@ -174,6 +207,9 @@ public class TasteItClientImpl implements TasteItClient {
 
     @Override
     public void updateCuisine(UpdateCuisineRequest request, GenerateTokenResponse token) throws TasteItClientException, TasteItServiceException {
+        if (request == null || token == null) {
+            throw new TasteItClientException("one of the paramter is null", null);
+        }
         Response response = postWithAuthentication("/v1/customers/cuisine", request, token);
         
         ResponseHandler.checkException(response);
@@ -182,6 +218,9 @@ public class TasteItClientImpl implements TasteItClient {
     @Override
     public void markCuisineAvailable(ChangeCuisineAvailabilityRequest request, GenerateTokenResponse token) throws TasteItClientException,
             TasteItServiceException {
+        if (request == null || token == null) {
+            throw new TasteItClientException("one of the paramter is null", null);
+        }
         Response response = postWithAuthentication("/v1/customers/cuisine/available", request, token);
         
         ResponseHandler.checkException(response);
@@ -190,6 +229,9 @@ public class TasteItClientImpl implements TasteItClient {
     @Override
     public void markCuisineUnavailable(ChangeCuisineAvailabilityRequest request, GenerateTokenResponse token) throws TasteItClientException,
             TasteItServiceException {
+        if (request == null || token == null) {
+            throw new TasteItClientException("one of the paramter is null", null);
+        }
         Response response = postWithAuthentication("/v1/customers/cuisine/unavailable", request, token);
         
         ResponseHandler.checkException(response);
@@ -197,7 +239,43 @@ public class TasteItClientImpl implements TasteItClient {
 
     @Override
     public void resetCustomerCredential(ResetCustomerRequest request) throws TasteItClientException, TasteItServiceException {
+        if (request == null) {
+            throw new TasteItClientException("one of the paramter is null", null);
+        }
         Response response = post("/v1/customers/profile/reset", request);
+        
+        ResponseHandler.checkException(response);
+    }
+
+    @Override
+    public void addPromotionImage(PromotionImageUploadRequest request, GenerateTokenResponse token) throws TasteItClientException, TasteItServiceException {
+        if (request == null || token == null) {
+            throw new TasteItClientException("one of the paramter is null", null);
+        }
+        Response response = postWithAuthentication("/v1/restaurant/images/new", request, token);
+        
+        ResponseHandler.checkException(response);
+    }
+
+    @Override
+    public void deletePromotionImage(DeletePromotionImageRequest request, GenerateTokenResponse token) throws TasteItClientException, TasteItServiceException {
+        if (request == null || token == null) {
+            throw new TasteItClientException("one of the paramter is null", null);
+        }
+        Response response = deleteWithAuthentication("/v1/restaurant/images", 
+                ImmutableMap.of(DeletePromotionImageRequest.RESTAURANT_ID, request.getRestaurantId(),
+                        DeletePromotionImageRequest.IMAGE_ID, request.getImageId()), token);
+        
+        ResponseHandler.checkException(response);
+    }
+
+    @Override
+    public void updatePromotionImageDisplayOrder(UpdatePromotionImageDisplayOrderRequest request, GenerateTokenResponse token) throws TasteItClientException,
+            TasteItServiceException {
+        if (request == null || token == null) {
+            throw new TasteItClientException("one of the paramter is null", null);
+        }
+        Response response = postWithAuthentication("/v1/restaurant/images", request, token);
         
         ResponseHandler.checkException(response);
     }

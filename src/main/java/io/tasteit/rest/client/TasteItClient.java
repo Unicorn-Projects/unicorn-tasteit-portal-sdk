@@ -3,11 +3,14 @@ package io.tasteit.rest.client;
 import io.tasteit.rest.service.model.exception.TasteItClientException;
 import io.tasteit.rest.service.model.exception.TasteItServiceException;
 import io.tasteit.rest.service.model.request.ChangeCuisineAvailabilityRequest;
+import io.tasteit.rest.service.model.request.DeletePromotionImageRequest;
 import io.tasteit.rest.service.model.request.GenerateTokenRequest;
 import io.tasteit.rest.service.model.request.GetRestaurantRequest;
+import io.tasteit.rest.service.model.request.PromotionImageUploadRequest;
 import io.tasteit.rest.service.model.request.ResetCustomerRequest;
 import io.tasteit.rest.service.model.request.RevokeTokenRequest;
 import io.tasteit.rest.service.model.request.UpdateCuisineRequest;
+import io.tasteit.rest.service.model.request.UpdatePromotionImageDisplayOrderRequest;
 import io.tasteit.rest.service.model.request.UpdateRestaurantDetailRequest;
 import io.tasteit.rest.service.model.request.UpdateRestaurantInfoRequest;
 import io.tasteit.rest.service.model.request.UpdateRestaurantOpenHoursRequest;
@@ -129,5 +132,34 @@ public interface TasteItClient {
     public void resetCustomerCredential(ResetCustomerRequest request)
             throws TasteItClientException, TasteItServiceException;
     
+    /**
+     * upload promotion image to server
+     * @param request
+     * @param token
+     * @throws TasteItClientException
+     * @throws TasteItServiceException
+     */
+    public void addPromotionImage(PromotionImageUploadRequest request, GenerateTokenResponse token)
+            throws TasteItClientException, TasteItServiceException;
+
+    /**
+     * delete promotion image
+     * @param request
+     * @param token
+     * @throws TasteItClientException
+     * @throws TasteItServiceException
+     */
+    public void deletePromotionImage(DeletePromotionImageRequest request, GenerateTokenResponse token)
+            throws TasteItClientException, TasteItServiceException;
     
+
+    /**
+     * update promotion image display order
+     * @param request
+     * @param token
+     * @throws TasteItClientException
+     * @throws TasteItServiceException
+     */
+    public void updatePromotionImageDisplayOrder(UpdatePromotionImageDisplayOrderRequest request, GenerateTokenResponse token)
+            throws TasteItClientException, TasteItServiceException;
 }
