@@ -7,7 +7,7 @@ import io.tasteit.rest.service.model.request.ChangeCuisineAvailabilityRequest;
 import io.tasteit.rest.service.model.request.DeletePromotionImageRequest;
 import io.tasteit.rest.service.model.request.GenerateTokenRequest;
 import io.tasteit.rest.service.model.request.GetRestaurantRequest;
-import io.tasteit.rest.service.model.request.PromotionImageUploadRequest;
+import io.tasteit.rest.service.model.request.UploadPromotionImageRequest;
 import io.tasteit.rest.service.model.request.ResetCustomerRequest;
 import io.tasteit.rest.service.model.request.RevokeTokenRequest;
 import io.tasteit.rest.service.model.request.UpdateCuisineRequest;
@@ -248,11 +248,11 @@ public class TasteItServiceClientImpl implements TasteItServiceClient {
     }
 
     @Override
-    public void addPromotionImage(PromotionImageUploadRequest request, GenerateTokenResponse token) throws TasteItClientException, TasteItServiceException {
+    public void addPromotionImage(UploadPromotionImageRequest request, GenerateTokenResponse token) throws TasteItClientException, TasteItServiceException {
         if (request == null || token == null) {
             throw new TasteItClientException("one of the paramter is null", null);
         }
-        Response response = postWithAuthentication("/v1/restaurant/images/new", request, token);
+        Response response = postWithAuthentication("/v1/customers/restaurant/images/new", request, token);
         
         ResponseHandler.checkException(response);
     }
@@ -262,9 +262,9 @@ public class TasteItServiceClientImpl implements TasteItServiceClient {
         if (request == null || token == null) {
             throw new TasteItClientException("one of the paramter is null", null);
         }
-        Response response = deleteWithAuthentication("/v1/restaurant/images", 
+        Response response = deleteWithAuthentication("/v1/customers/restaurant/images", 
                 ImmutableMap.of(DeletePromotionImageRequest.RESTAURANT_ID, request.getRestaurantId(),
-                        DeletePromotionImageRequest.IMAGE_ID, request.getImageId()), token);
+                        DeletePromotionImageRequest.IMAGE_ID, request.getPromotionImageId()), token);
         
         ResponseHandler.checkException(response);
     }
@@ -275,7 +275,7 @@ public class TasteItServiceClientImpl implements TasteItServiceClient {
         if (request == null || token == null) {
             throw new TasteItClientException("one of the paramter is null", null);
         }
-        Response response = postWithAuthentication("/v1/restaurant/images", request, token);
+        Response response = postWithAuthentication("/v1/customers/restaurant/images", request, token);
         
         ResponseHandler.checkException(response);
     }

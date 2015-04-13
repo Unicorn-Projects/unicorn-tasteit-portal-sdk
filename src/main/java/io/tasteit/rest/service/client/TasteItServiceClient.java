@@ -6,7 +6,7 @@ import io.tasteit.rest.service.model.request.ChangeCuisineAvailabilityRequest;
 import io.tasteit.rest.service.model.request.DeletePromotionImageRequest;
 import io.tasteit.rest.service.model.request.GenerateTokenRequest;
 import io.tasteit.rest.service.model.request.GetRestaurantRequest;
-import io.tasteit.rest.service.model.request.PromotionImageUploadRequest;
+import io.tasteit.rest.service.model.request.UploadPromotionImageRequest;
 import io.tasteit.rest.service.model.request.ResetCustomerRequest;
 import io.tasteit.rest.service.model.request.RevokeTokenRequest;
 import io.tasteit.rest.service.model.request.UpdateCuisineRequest;
@@ -139,7 +139,7 @@ public interface TasteItServiceClient {
      * @throws TasteItClientException
      * @throws TasteItServiceException
      */
-    public void addPromotionImage(PromotionImageUploadRequest request, GenerateTokenResponse token)
+    public void addPromotionImage(UploadPromotionImageRequest request, GenerateTokenResponse token)
             throws TasteItClientException, TasteItServiceException;
 
     /**

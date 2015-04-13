@@ -8,17 +8,17 @@ public class UpdatePromotionImageDisplayOrderRequest {
     @Nonnull
     private String restaurantId;
     @Nonnull
-    private List<String> imageDisplayOrder;
+    private List<String> imageIds;
 
-    public UpdatePromotionImageDisplayOrderRequest(String restaurantId, List<String> imageDisplayOrder) {
+    public UpdatePromotionImageDisplayOrderRequest(String restaurantId, List<String> imageIds) {
         super();
         
-        if (restaurantId == null || imageDisplayOrder == null) {
+        if (restaurantId == null || imageIds == null) {
             throw new IllegalArgumentException("one of the paramter is null");
         }
         
         this.restaurantId = restaurantId;
-        this.imageDisplayOrder = imageDisplayOrder;
+        this.imageIds = imageIds;
     }
 
     public String getRestaurantId() {
@@ -29,12 +29,12 @@ public class UpdatePromotionImageDisplayOrderRequest {
         this.restaurantId = restaurantId;
     }
 
-    public List<String> getImageDisplayOrder() {
-        return imageDisplayOrder;
+    public List<String> getimageIds() {
+        return imageIds;
     }
 
-    public void setImageDisplayOrder(List<String> imageDisplayOrder) {
-        this.imageDisplayOrder = imageDisplayOrder;
+    public void setimageIds(List<String> imageIds) {
+        this.imageIds = imageIds;
     }
 
 }

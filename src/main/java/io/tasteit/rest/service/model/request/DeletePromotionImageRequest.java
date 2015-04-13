@@ -5,35 +5,36 @@ import javax.annotation.Nonnull;
 public class DeletePromotionImageRequest {
 
     public static final String RESTAURANT_ID = "restaurant_id";
-    public static final String IMAGE_ID = "image_id";
+    public static final String IMAGE_ID = "promotion_image_id";
     
     @Nonnull private String restaurantId;
-    @Nonnull private String imageId;
+    @Nonnull private String promotionImageId;
 
-    public DeletePromotionImageRequest(String restaurantId, String imageId) {
+    public DeletePromotionImageRequest(String restaurantId, String promotionImageId) {
         super();
-        if (restaurantId == null || imageId == null) {
+        if (restaurantId == null || promotionImageId == null) {
             throw new IllegalArgumentException("one of the paramter is null");
         }
         
         this.restaurantId = restaurantId;
-        this.imageId = imageId;
+        this.promotionImageId = promotionImageId;
     }
 
-    public String getRestaurantId() {
-        return restaurantId;
-    }
+	public String getRestaurantId() {
+		return restaurantId;
+	}
 
-    public void setRestaurantId(String restaurantId) {
-        this.restaurantId = restaurantId;
-    }
+	public void setRestaurantId(String restaurantId) {
+		this.restaurantId = restaurantId;
+	}
 
-    public String getImageId() {
-        return imageId;
-    }
+	public String getPromotionImageId() {
+		return promotionImageId;
+	}
 
-    public void setImageId(String imageId) {
-        this.imageId = imageId;
-    }
-
+	public void setPromotionImageId(String promotionImageId) {
+		this.promotionImageId = promotionImageId;
+	}
+    
+    
 }
