@@ -1,5 +1,6 @@
 package io.tasteit.rest.service.client;
 
+import io.tasteit.rest.service.model.AuthenticationToken;
 import io.tasteit.rest.service.model.exception.TasteItClientException;
 import io.tasteit.rest.service.model.exception.TasteItServiceException;
 import io.tasteit.rest.service.model.request.ChangeCuisineAvailabilityRequest;
@@ -49,7 +50,7 @@ public interface TasteItServiceClient {
      * @throws TasteItClientException
      * @throws TasteItServiceException
      */
-    public GetRestaurantResponse getRestaurant(GetRestaurantRequest request, GenerateTokenResponse token) 
+    public GetRestaurantResponse getRestaurant(GetRestaurantRequest request, AuthenticationToken token) 
             throws TasteItClientException, TasteItServiceException;
     
     /**
@@ -60,7 +61,7 @@ public interface TasteItServiceClient {
      * @throws TasteItClientException
      * @throws TasteItServiceException
      */
-    public GetRestaurantMenuResponse getRestaurantMenu(GetRestaurantRequest request, GenerateTokenResponse token)
+    public GetRestaurantMenuResponse getRestaurantMenu(GetRestaurantRequest request, AuthenticationToken token)
             throws TasteItClientException, TasteItServiceException;
 
     /**
@@ -70,7 +71,7 @@ public interface TasteItServiceClient {
      * @throws TasteItClientException
      * @throws TasteItServiceException
      */
-    public void updateRestaurantInfo(UpdateRestaurantInfoRequest request, GenerateTokenResponse token)
+    public void updateRestaurantInfo(UpdateRestaurantInfoRequest request, AuthenticationToken token)
             throws TasteItClientException, TasteItServiceException;
     
     /**
@@ -80,7 +81,7 @@ public interface TasteItServiceClient {
      * @throws TasteItClientException
      * @throws TasteItServiceException
      */
-    public void updateRestaurantDetail(UpdateRestaurantDetailRequest request, GenerateTokenResponse token)
+    public void updateRestaurantDetail(UpdateRestaurantDetailRequest request, AuthenticationToken token)
             throws TasteItClientException, TasteItServiceException;
 
     /**
@@ -90,7 +91,7 @@ public interface TasteItServiceClient {
      * @throws TasteItClientException
      * @throws TasteItServiceException
      */
-    public void updateRestaurantOpenHours(UpdateRestaurantOpenHoursRequest request, GenerateTokenResponse token)
+    public void updateRestaurantOpenHours(UpdateRestaurantOpenHoursRequest request, AuthenticationToken token)
             throws TasteItClientException, TasteItServiceException;
 
     /**
@@ -100,7 +101,7 @@ public interface TasteItServiceClient {
      * @throws TasteItClientException
      * @throws TasteItServiceException
      */
-    public void updateCuisine(UpdateCuisineRequest request, GenerateTokenResponse token)
+    public void updateCuisine(UpdateCuisineRequest request, AuthenticationToken token)
             throws TasteItClientException, TasteItServiceException;
 
     /**
@@ -110,7 +111,7 @@ public interface TasteItServiceClient {
      * @throws TasteItClientException
      * @throws TasteItServiceException
      */
-    public void markCuisineAvailable(ChangeCuisineAvailabilityRequest request, GenerateTokenResponse token)
+    public void markCuisineAvailable(ChangeCuisineAvailabilityRequest request, AuthenticationToken token)
             throws TasteItClientException, TasteItServiceException;
 
     /**
@@ -120,7 +121,7 @@ public interface TasteItServiceClient {
      * @throws TasteItClientException
      * @throws TasteItServiceException
      */
-    public void markCuisineUnavailable(ChangeCuisineAvailabilityRequest request, GenerateTokenResponse token)
+    public void markCuisineUnavailable(ChangeCuisineAvailabilityRequest request, AuthenticationToken token)
             throws TasteItClientException, TasteItServiceException;
     
     /**
@@ -139,7 +140,7 @@ public interface TasteItServiceClient {
      * @throws TasteItClientException
      * @throws TasteItServiceException
      */
-    public void addPromotionImage(UploadPromotionImageRequest request, GenerateTokenResponse token)
+    public void addPromotionImage(UploadPromotionImageRequest request, AuthenticationToken token)
             throws TasteItClientException, TasteItServiceException;
 
     /**
@@ -149,7 +150,7 @@ public interface TasteItServiceClient {
      * @throws TasteItClientException
      * @throws TasteItServiceException
      */
-    public void deletePromotionImage(DeletePromotionImageRequest request, GenerateTokenResponse token)
+    public void deletePromotionImage(DeletePromotionImageRequest request, AuthenticationToken token)
             throws TasteItClientException, TasteItServiceException;
     
 
@@ -160,6 +161,6 @@ public interface TasteItServiceClient {
      * @throws TasteItClientException
      * @throws TasteItServiceException
      */
-    public void updatePromotionImageDisplayOrder(UpdatePromotionImageDisplayOrderRequest request, GenerateTokenResponse token)
+    public void updatePromotionImageDisplayOrder(UpdatePromotionImageDisplayOrderRequest request, AuthenticationToken token)
             throws TasteItClientException, TasteItServiceException;
 }

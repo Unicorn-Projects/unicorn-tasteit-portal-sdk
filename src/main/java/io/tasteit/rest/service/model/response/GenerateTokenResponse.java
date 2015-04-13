@@ -1,5 +1,7 @@
 package io.tasteit.rest.service.model.response;
 
+import io.tasteit.rest.service.model.AuthenticationToken;
+
 import java.util.Date;
 
 public class GenerateTokenResponse {
@@ -21,6 +23,18 @@ public class GenerateTokenResponse {
     public Long getPrincipal() {
         return principal;
     }
+    
+    public AuthenticationToken buildAuthorizationToken() {
+        
+        AuthenticationToken token = new AuthenticationToken();
+        token.setTokenType(tokenType);
+        token.setToken(accessToken);
+        token.setExpireAt(expireAt);
+        token.setPrincipal(principal);
+        
+        return token;
+    }
+    
     
     @Override
     public String toString() {

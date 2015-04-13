@@ -9,6 +9,7 @@ import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 
+import io.tasteit.rest.service.model.AuthenticationToken;
 import io.tasteit.rest.service.model.exception.TasteItClientException;
 import io.tasteit.rest.service.model.exception.TasteItServiceException;
 import io.tasteit.rest.service.model.request.DeletePromotionImageRequest;
@@ -26,7 +27,8 @@ public class Example {
     public static void main(String[] args) {
         TasteItServiceClientImpl client = new TasteItServiceClientImpl("https://api-gamma.tasteit.io", 443);
        
-        GenerateTokenResponse token = client.generateAccessToken(new GenerateTokenRequest("test@tasteit.io", "password123456"));
+        GenerateTokenResponse tokenResponse = client.generateAccessToken(new GenerateTokenRequest("test@tasteit.io", "password123456"));
+        AuthenticationToken token = tokenResponse.buildAuthorizationToken();
         System.out.println(token);
         
         try {
@@ -49,9 +51,7 @@ public class Example {
             System.out.println(restaurant);
             
             client.deletePromotionImage(new DeletePromotionImageRequest(restaurant.getRestaurantId(), "2"), token);
-//            
             client.deletePromotionImage(new DeletePromotionImageRequest(restaurant.getRestaurantId(), "1"), token);
-            
 
             restaurant = client.getRestaurant(new GetRestaurantRequest("c23n-83440033214612255"), token);
             System.out.println(restaurant);
@@ -62,7 +62,7 @@ public class Example {
         	error.printStackTrace(System.out);
             System.out.println(error);
         } finally {
-            client.revokeAccessToken(new RevokeTokenRequest(token.getTokenType(), token.getAccessToken(), token.getPrincipal()));
+            client.revokeAccessToken(new RevokeTokenRequest(token.getTokenType(), token.getToken(), token.getPrincipal()));
         }
         System.exit(0);
     }
