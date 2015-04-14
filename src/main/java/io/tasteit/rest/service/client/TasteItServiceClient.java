@@ -21,6 +21,7 @@ import io.tasteit.rest.service.model.response.GetRestaurantResponse;
 
 public interface TasteItServiceClient {
 
+    //TODO: Add JavaDoc
     
     /**
      * Generate access token, this is used for sign in

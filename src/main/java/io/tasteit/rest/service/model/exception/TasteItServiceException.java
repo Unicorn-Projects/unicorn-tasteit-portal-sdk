@@ -9,6 +9,9 @@ public class TasteItServiceException extends RuntimeException {
     // Status.BAD_REQUEST
     public final static String INVALID_REQUEST = "InvalidRequestException";
     public final static String INVALID_OPEN_HOUR = "InvalidOpenHourException";
+    public final static String INVALID_CUISINE_CATEGORY = "InvalidCuisineCategoryException";
+    public final static String INVALID_CUISINE_TYPE = "InvalidCuisineTypeException";
+    public final static String INVALID_MEAL_TYPE = "InvalidMealTypeException";
     public final static String WEAK_PASSWORD = "WeakPasswordException";
     public final static String RESOURCE_IN_USE = "ResourceInUseException";
     public final static String RESOURCE_NOT_FOUND = "ResourceNotFoundException";

@@ -3,6 +3,9 @@ package io.tasteit.rest.service.client.impl;
 import io.tasteit.rest.service.model.exception.AccessDeniedException;
 import io.tasteit.rest.service.model.exception.BadRequestException;
 import io.tasteit.rest.service.model.exception.ForbiddenRequestException;
+import io.tasteit.rest.service.model.exception.InvalidCuisineCategoryException;
+import io.tasteit.rest.service.model.exception.InvalidCuisineTypeException;
+import io.tasteit.rest.service.model.exception.InvalidMealTypeException;
 import io.tasteit.rest.service.model.exception.InvalidOpenHourException;
 import io.tasteit.rest.service.model.exception.InvalidRequestException;
 import io.tasteit.rest.service.model.exception.MissingAuthorizationException;
@@ -44,6 +47,12 @@ public class ResponseHandler {
                         switch (error.getErrorType()) {
                         case TasteItServiceException.INVALID_REQUEST:
                             throw new InvalidRequestException(error);
+                        case TasteItServiceException.INVALID_CUISINE_CATEGORY:
+                            throw new InvalidCuisineCategoryException(error);
+                        case TasteItServiceException.INVALID_CUISINE_TYPE:
+                            throw new InvalidCuisineTypeException(error);
+                        case TasteItServiceException.INVALID_MEAL_TYPE:
+                            throw new InvalidMealTypeException(error);
                         case TasteItServiceException.INVALID_OPEN_HOUR:
                             throw new InvalidOpenHourException(error);
                         case TasteItServiceException.WEAK_PASSWORD:
