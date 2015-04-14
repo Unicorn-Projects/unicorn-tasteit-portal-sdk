@@ -14,7 +14,6 @@ public class GetRestaurantResponse {
     private String logoUrl;
     private List<String> cuisinesCategories;
     private List<String> cuisinesTypes;
-    private List<String> mealsTypes; 
     private Double latitude;
     private Double longitude;
     
@@ -48,9 +47,6 @@ public class GetRestaurantResponse {
     }
     public List<String> getCuisinesTypes() {
         return cuisinesTypes;
-    }
-    public List<String> getMealsTypes() {
-        return mealsTypes;
     }
     public Double getLatitude() {
         return latitude;
@@ -89,9 +85,8 @@ public class GetRestaurantResponse {
                 + ", restaurantName=" + restaurantName + ", logoVersion="
                 + logoVersion + ", logoUrl=" + logoUrl
                 + ", cuisinesCategories=" + cuisinesCategories
-                + ", cuisinesTypes=" + cuisinesTypes + ", mealsTypes="
-                + mealsTypes + ", latitude=" + latitude + ", longitude="
-                + longitude + ", favoriteCounter=" + favoriteCounter
+                + ", cuisinesTypes=" + cuisinesTypes + ", latitude=" 
+                + latitude + ", longitude=" + longitude + ", favoriteCounter=" + favoriteCounter
                 + ", followedCounter=" + followedCounter + ", ownerPrincipal="
                 + ownerPrincipal + ", imagesUrls=" + imagesUrls + ", address="
                 + address + ", contact=" + contact + ", website=" + website
