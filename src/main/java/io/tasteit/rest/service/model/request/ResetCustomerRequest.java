@@ -7,7 +7,7 @@ public class ResetCustomerRequest {
     @Nonnull private String emailAddress;
     @Nonnull private Long customerPrincipal;
     @Nonnull private String credential;
-    
+
     public ResetCustomerRequest(String token, String emailAddress, Long customerPrincipal, String credential) {
         super();
         this.token = token;
@@ -15,7 +15,7 @@ public class ResetCustomerRequest {
         this.customerPrincipal = customerPrincipal;
         this.credential = credential;
     }
-    
+
     public String getToken() {
         return token;
     }

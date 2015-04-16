@@ -14,7 +14,7 @@ public class UpdateRestaurantOpenHoursRequest {
 
     @Nonnull private String restaurantId;
     @Nullable private Map<String, List<WeekdaysOpenHour>> openHours;
-    
+
     public UpdateRestaurantOpenHoursRequest(@Nonnull String restaurantId) {
         if (StringUtils.isBlank(restaurantId)) {
             throw new IllegalArgumentException("restaurantId should not be null or empty");
@@ -33,5 +33,5 @@ public class UpdateRestaurantOpenHoursRequest {
     public void setOpenHours(Map<String, List<WeekdaysOpenHour>> openHours) {
         this.openHours = openHours;
     }
-    
+
 }

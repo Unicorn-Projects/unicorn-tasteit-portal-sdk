@@ -9,7 +9,7 @@ public class RevokeTokenRequest {
     public static final String TOKEN_TYPE = "token_type";
     public static final String TOKEN = "token";
     public static final String PRINCIPAL = "principal";
-    
+
     @Nonnull private String tokenType;
     @Nonnull private String token;
     @Nonnull private Long principal;
@@ -18,7 +18,7 @@ public class RevokeTokenRequest {
         if (StringUtils.isBlank(tokenType) || StringUtils.isBlank(token) || principal == null) {
             throw new IllegalArgumentException("tokenType and token and principal should not be null or empty");
         }
-        
+
         this.tokenType = tokenType;
         this.token = token;
         this.principal = principal;

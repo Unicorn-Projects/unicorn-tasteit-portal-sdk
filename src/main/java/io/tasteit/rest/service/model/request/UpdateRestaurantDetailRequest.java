@@ -10,7 +10,7 @@ public class UpdateRestaurantDetailRequest {
     @Nonnull private String restaurantId;
     @Nullable private String contact;
     @Nullable private String website;
-    
+
     public UpdateRestaurantDetailRequest(@Nonnull String restaurantId) {
         if (StringUtils.isBlank(restaurantId)) {
             throw new IllegalArgumentException("restaurantId should not be null or empty");
@@ -37,5 +37,5 @@ public class UpdateRestaurantDetailRequest {
     public void setWebsite(String website) {
         this.website = website;
     }
-    
+
 }

@@ -10,10 +10,12 @@ public class Cuisine {
     private String cuisineCategory;
     private String cuisineType;
     private List<String> mealTypes;
+    private String menuCategory;
     private Boolean vegetarian;
     private Boolean glutenFree;
-    private Float imageRatio;
+    private Integer imageVersion;
     private String imageUrl;
+    private Float imageRatio;
     private Float price;
     private Boolean unavailable;
     private Long favorites;
@@ -21,9 +23,7 @@ public class Cuisine {
     public String getCuisineId() {
         return cuisineId;
     }
-    public void setCuisineId(String cuisineId) {
-        this.cuisineId = cuisineId;
-    }
+
     public String getCuisineName() {
         return cuisineName;
     }
@@ -54,6 +54,12 @@ public class Cuisine {
     public void setMealTypes(List<String> mealTypes) {
         this.mealTypes = mealTypes;
     }
+    public String getMenuCategory() {
+        return menuCategory;
+    }
+    public void setMenuCategory(String menuCategory) {
+        this.menuCategory = menuCategory;
+    }
     public Boolean getVegetarian() {
         return vegetarian;
     }
@@ -66,17 +72,23 @@ public class Cuisine {
     public void setGlutenFree(Boolean glutenFree) {
         this.glutenFree = glutenFree;
     }
-    public Float getImageRatio() {
-        return imageRatio;
+    public Integer getImageVersion() {
+        return imageVersion;
     }
-    public void setImageRatio(Float imageRatio) {
-        this.imageRatio = imageRatio;
+    public void setImageVersion(Integer imageVersion) {
+        this.imageVersion = imageVersion;
     }
     public String getImageUrl() {
         return imageUrl;
     }
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+    public Float getImageRatio() {
+        return imageRatio;
+    }
+    public void setImageRatio(Float imageRatio) {
+        this.imageRatio = imageRatio;
     }
     public Float getPrice() {
         return price;
@@ -87,19 +99,20 @@ public class Cuisine {
     public Boolean getUnavailable() {
         return unavailable;
     }
-    public void setUnavailable(Boolean available) {
-        this.unavailable = available;
+    public void setUnavailable(Boolean unavailable) {
+        this.unavailable = unavailable;
     }
     public Long getFavorites() {
         return favorites;
     }
-
+    public void setFavorites(Long favorites) {
+        this.favorites = favorites;
+    }
+    
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result
-                + ((unavailable == null) ? 0 : unavailable.hashCode());
         result = prime * result
                 + ((cuisineCategory == null) ? 0 : cuisineCategory.hashCode());
         result = prime * result
@@ -119,13 +132,19 @@ public class Cuisine {
         result = prime * result
                 + ((imageUrl == null) ? 0 : imageUrl.hashCode());
         result = prime * result
+                + ((imageVersion == null) ? 0 : imageVersion.hashCode());
+        result = prime * result
                 + ((mealTypes == null) ? 0 : mealTypes.hashCode());
+        result = prime * result
+                + ((menuCategory == null) ? 0 : menuCategory.hashCode());
         result = prime * result + ((price == null) ? 0 : price.hashCode());
+        result = prime * result
+                + ((unavailable == null) ? 0 : unavailable.hashCode());
         result = prime * result
                 + ((vegetarian == null) ? 0 : vegetarian.hashCode());
         return result;
     }
-
+    
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -135,11 +154,6 @@ public class Cuisine {
         if (getClass() != obj.getClass())
             return false;
         Cuisine other = (Cuisine) obj;
-        if (unavailable == null) {
-            if (other.unavailable != null)
-                return false;
-        } else if (!unavailable.equals(other.unavailable))
-            return false;
         if (cuisineCategory == null) {
             if (other.cuisineCategory != null)
                 return false;
@@ -185,15 +199,30 @@ public class Cuisine {
                 return false;
         } else if (!imageUrl.equals(other.imageUrl))
             return false;
+        if (imageVersion == null) {
+            if (other.imageVersion != null)
+                return false;
+        } else if (!imageVersion.equals(other.imageVersion))
+            return false;
         if (mealTypes == null) {
             if (other.mealTypes != null)
                 return false;
         } else if (!mealTypes.equals(other.mealTypes))
             return false;
+        if (menuCategory == null) {
+            if (other.menuCategory != null)
+                return false;
+        } else if (!menuCategory.equals(other.menuCategory))
+            return false;
         if (price == null) {
             if (other.price != null)
                 return false;
         } else if (!price.equals(other.price))
+            return false;
+        if (unavailable == null) {
+            if (other.unavailable != null)
+                return false;
+        } else if (!unavailable.equals(other.unavailable))
             return false;
         if (vegetarian == null) {
             if (other.vegetarian != null)
@@ -202,15 +231,17 @@ public class Cuisine {
             return false;
         return true;
     }
-
+    
     @Override
     public String toString() {
         return "Cuisine [cuisineId=" + cuisineId + ", cuisineName="
                 + cuisineName + ", cuisineDesc=" + cuisineDesc
                 + ", cuisineCategory=" + cuisineCategory + ", cuisineType="
-                + cuisineType + ", mealTypes=" + mealTypes + ", vegetarian="
-                + vegetarian + ", glutenFree=" + glutenFree + ", imageRatio="
-                + imageRatio + ", imageUrl=" + imageUrl + ", price=" + price
-                + ", unavailable=" + unavailable + ", favorites=" + favorites + "]";
+                + cuisineType + ", mealTypes=" + mealTypes + ", menuCategory="
+                + menuCategory + ", vegetarian=" + vegetarian + ", glutenFree="
+                + glutenFree + ", imageVersion=" + imageVersion + ", imageUrl="
+                + imageUrl + ", imageRatio=" + imageRatio + ", price=" + price
+                + ", unavailable=" + unavailable + ", favorites=" + favorites
+                + "]";
     }
 }

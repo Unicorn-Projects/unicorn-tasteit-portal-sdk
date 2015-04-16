@@ -8,7 +8,7 @@ import javax.annotation.Nullable;
 import org.apache.commons.lang3.StringUtils;
 
 public class UpdateCuisineRequest {
-    
+
     @Nonnull private String cuisineId;
     @Nullable private String cuisineName;
     @Nullable private String cuisineDesc;
@@ -19,7 +19,7 @@ public class UpdateCuisineRequest {
     @Nullable private Boolean glutenFree;
     @Nullable private String menuCategory;
     @Nullable private Float price;
-    
+
     public UpdateCuisineRequest(@Nonnull String cuisineId) {
         if (StringUtils.isBlank(cuisineId)) {
             throw new IllegalArgumentException("cuisineId should not be null or empty");

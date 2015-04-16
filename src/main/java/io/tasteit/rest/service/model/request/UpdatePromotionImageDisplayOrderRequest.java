@@ -12,11 +12,11 @@ public class UpdatePromotionImageDisplayOrderRequest {
 
     public UpdatePromotionImageDisplayOrderRequest(String restaurantId, List<String> imageIds) {
         super();
-        
+
         if (restaurantId == null || imageIds == null) {
             throw new IllegalArgumentException("one of the paramter is null");
         }
-        
+
         this.restaurantId = restaurantId;
         this.imageIds = imageIds;
     }

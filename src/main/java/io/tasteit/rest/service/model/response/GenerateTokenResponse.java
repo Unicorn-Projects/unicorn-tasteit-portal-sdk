@@ -10,7 +10,7 @@ public class GenerateTokenResponse {
     private String accessToken;
     private Date expireAt;
     private Long principal;
-    
+
     public String getTokenType() {
         return tokenType;
     }
@@ -23,19 +23,19 @@ public class GenerateTokenResponse {
     public Long getPrincipal() {
         return principal;
     }
-    
+
     public AuthenticationToken buildAuthorizationToken() {
-        
+
         AuthenticationToken token = new AuthenticationToken();
         token.setTokenType(tokenType);
         token.setToken(accessToken);
         token.setExpireAt(expireAt);
         token.setPrincipal(principal);
-        
+
         return token;
     }
-    
-    
+
+
     @Override
     public String toString() {
         return "GenerateTokenResponse [tokenType=" + tokenType

@@ -5,7 +5,7 @@ public class ErrorResponse {
     private String errorType;
     private String errorCode;
     private String errorDesc;
-    
+
     public ErrorResponse(){}
 
     public String getErrorType() {

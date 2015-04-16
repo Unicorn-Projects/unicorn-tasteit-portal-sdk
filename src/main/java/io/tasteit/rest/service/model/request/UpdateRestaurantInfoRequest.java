@@ -8,12 +8,12 @@ import javax.annotation.Nullable;
 import org.apache.commons.lang3.StringUtils;
 
 public class UpdateRestaurantInfoRequest {
-    
+
     @Nonnull private String restaurantId;
     @Nullable private List<String> cuisinesCategories;
     @Nullable private List<String> cuisinesTypes;
     @Nullable private List<String> mealsTypes;
-    
+
     public UpdateRestaurantInfoRequest(@Nonnull String restaurantId) {
         if (StringUtils.isBlank(restaurantId)) {
             throw new IllegalArgumentException("restaurantId should not be null or empty");
@@ -48,5 +48,5 @@ public class UpdateRestaurantInfoRequest {
     public void setMealsTypes(List<String> mealsTypes) {
         this.mealsTypes = mealsTypes;
     }
-    
+
 }

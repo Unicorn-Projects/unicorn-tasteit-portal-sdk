@@ -8,7 +8,7 @@ public class GetRestaurantRequest {
 
     public static final String GEO_RESTAURANT_ID = "restaurant_id";  
     @Nonnull private String restaurantId;
-    
+
     public GetRestaurantRequest(String restaurantId) {
         if (StringUtils.isBlank(restaurantId)) {
             throw new IllegalArgumentException("restaurantId should not be null or empty");
