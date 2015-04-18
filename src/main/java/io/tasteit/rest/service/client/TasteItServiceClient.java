@@ -164,4 +164,6 @@ public interface TasteItServiceClient {
      */
     public void updatePromotionImageDisplayOrder(UpdatePromotionImageDisplayOrderRequest request, AuthenticationToken token)
             throws TasteItClientException, TasteItServiceException;
+    
+    public void shutdown();
 }

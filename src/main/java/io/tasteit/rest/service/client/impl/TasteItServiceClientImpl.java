@@ -20,7 +20,6 @@ import io.tasteit.rest.service.model.response.GenerateTokenResponse;
 import io.tasteit.rest.service.model.response.GetRestaurantMenuResponse;
 import io.tasteit.rest.service.model.response.GetRestaurantResponse;
 
-import java.io.IOException;
 import java.util.Base64;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -65,10 +64,6 @@ public class TasteItServiceClientImpl implements TasteItServiceClient {
         }
     }
 
-    public void shutdown() throws IOException {
-        client.close();
-    }
-    
     private Builder authenticateRequest(Builder requestBuilder, AuthenticationToken token) {
         return requestBuilder.header(HttpHeaders.AUTHORIZATION, "Bearer " + 
         Base64.getEncoder().encodeToString(String.valueOf(token.getPrincipal() + ":" + token.getToken()).getBytes()));
@@ -282,5 +277,10 @@ public class TasteItServiceClientImpl implements TasteItServiceClient {
         Response response = postWithAuthentication("/v1/customers/restaurant/images", request, token);
         
         ResponseHandler.checkException(response);
+    }
+    
+    @Override
+    public void shutdown() {
+        client.close();
     }
 }
