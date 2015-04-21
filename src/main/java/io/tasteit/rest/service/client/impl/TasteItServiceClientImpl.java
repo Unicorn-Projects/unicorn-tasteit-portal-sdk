@@ -4,7 +4,6 @@ import io.tasteit.rest.service.client.TasteItServiceClient;
 import io.tasteit.rest.service.model.AuthenticationToken;
 import io.tasteit.rest.service.model.exception.TasteItClientException;
 import io.tasteit.rest.service.model.exception.TasteItServiceException;
-import io.tasteit.rest.service.model.request.ChangeCuisineAvailabilityRequest;
 import io.tasteit.rest.service.model.request.DeletePromotionImageRequest;
 import io.tasteit.rest.service.model.request.GenerateTokenRequest;
 import io.tasteit.rest.service.model.request.GetRestaurantRequest;
@@ -208,28 +207,6 @@ public class TasteItServiceClientImpl implements TasteItServiceClient {
             throw new TasteItClientException("one of the paramter is null", null);
         }
         Response response = postWithAuthentication("/v1/customers/cuisine", request, token);
-        
-        ResponseHandler.checkException(response);
-    }
-
-    @Override
-    public void markCuisineAvailable(ChangeCuisineAvailabilityRequest request, AuthenticationToken token) 
-            throws TasteItClientException, TasteItServiceException {
-        if (request == null || token == null) {
-            throw new TasteItClientException("one of the paramter is null", null);
-        }
-        Response response = postWithAuthentication("/v1/customers/cuisine/available", request, token);
-        
-        ResponseHandler.checkException(response);
-    }
-
-    @Override
-    public void markCuisineUnavailable(ChangeCuisineAvailabilityRequest request, AuthenticationToken token) 
-            throws TasteItClientException, TasteItServiceException {
-        if (request == null || token == null) {
-            throw new TasteItClientException("one of the paramter is null", null);
-        }
-        Response response = postWithAuthentication("/v1/customers/cuisine/unavailable", request, token);
         
         ResponseHandler.checkException(response);
     }

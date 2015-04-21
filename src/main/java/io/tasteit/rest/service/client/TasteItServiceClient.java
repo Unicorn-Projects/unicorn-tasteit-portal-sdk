@@ -3,7 +3,6 @@ package io.tasteit.rest.service.client;
 import io.tasteit.rest.service.model.AuthenticationToken;
 import io.tasteit.rest.service.model.exception.TasteItClientException;
 import io.tasteit.rest.service.model.exception.TasteItServiceException;
-import io.tasteit.rest.service.model.request.ChangeCuisineAvailabilityRequest;
 import io.tasteit.rest.service.model.request.DeletePromotionImageRequest;
 import io.tasteit.rest.service.model.request.GenerateTokenRequest;
 import io.tasteit.rest.service.model.request.GetRestaurantRequest;
@@ -105,26 +104,6 @@ public interface TasteItServiceClient {
     public void updateCuisine(UpdateCuisineRequest request, AuthenticationToken token)
             throws TasteItClientException, TasteItServiceException;
 
-    /**
-     * mark cuisine available
-     * @param request
-     * @param token
-     * @throws TasteItClientException
-     * @throws TasteItServiceException
-     */
-    public void markCuisineAvailable(ChangeCuisineAvailabilityRequest request, AuthenticationToken token)
-            throws TasteItClientException, TasteItServiceException;
-
-    /**
-     * mark cuisine unavailable
-     * @param request
-     * @param token
-     * @throws TasteItClientException
-     * @throws TasteItServiceException
-     */
-    public void markCuisineUnavailable(ChangeCuisineAvailabilityRequest request, AuthenticationToken token)
-            throws TasteItClientException, TasteItServiceException;
-    
     /**
      * reset customer credential
      * @param request

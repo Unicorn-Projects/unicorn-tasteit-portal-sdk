@@ -19,7 +19,8 @@ public class UpdateCuisineRequest {
     @Nullable private Boolean glutenFree;
     @Nullable private String menuCategory;
     @Nullable private Float price;
-
+    @Nullable private Boolean availability;
+    
     public UpdateCuisineRequest(@Nonnull String cuisineId) {
         if (StringUtils.isBlank(cuisineId)) {
             throw new IllegalArgumentException("cuisineId should not be null or empty");
@@ -101,5 +102,13 @@ public class UpdateCuisineRequest {
 
     public void setPrice(Float price) {
         this.price = price;
+    }
+
+    public Boolean getAvailability() {
+        return availability;
+    }
+
+    public void setAvailability(Boolean availability) {
+        this.availability = availability;
     }
 }
