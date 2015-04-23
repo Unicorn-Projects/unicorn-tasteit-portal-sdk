@@ -26,6 +26,7 @@ public class WeekdaysOpenHour {
     public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
+    
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -37,6 +38,7 @@ public class WeekdaysOpenHour {
                 + ((weekdays == null) ? 0 : weekdays.hashCode());
         return result;
     }
+    
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

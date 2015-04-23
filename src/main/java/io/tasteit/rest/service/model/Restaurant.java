@@ -1,12 +1,14 @@
 package io.tasteit.rest.service.model;
 
+import java.util.Map;
+
 public class Restaurant {
     
     private String restaurantId;
     private RestaurantInfo restaurantInfo;
     private RestaurantDetail restaurantDetail;
     private RestaurantPromotionImages restaurantPromotionImages;
-    private RestaurantOpenHours restaurantOpenHours;
+    private Map<String, WeekdaysOpenHours> restaurantOpenHours;
     
     public String getRestaurantId() {
         return restaurantId;
@@ -33,10 +35,10 @@ public class Restaurant {
             RestaurantPromotionImages restaurantPromotionImages) {
         this.restaurantPromotionImages = restaurantPromotionImages;
     }
-    public RestaurantOpenHours getRestaurantOpenHours() {
+    public Map<String, WeekdaysOpenHours> getRestaurantOpenHours() {
         return restaurantOpenHours;
     }
-    public void setRestaurantOpenHours(RestaurantOpenHours restaurantOpenHours) {
+    public void setRestaurantOpenHours(Map<String, WeekdaysOpenHours> restaurantOpenHours) {
         this.restaurantOpenHours = restaurantOpenHours;
     }
     

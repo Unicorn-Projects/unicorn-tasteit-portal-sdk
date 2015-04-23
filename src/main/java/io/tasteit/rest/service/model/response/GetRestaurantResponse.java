@@ -4,12 +4,14 @@ import io.tasteit.rest.service.model.Address;
 import io.tasteit.rest.service.model.Restaurant;
 import io.tasteit.rest.service.model.RestaurantDetail;
 import io.tasteit.rest.service.model.RestaurantInfo;
-import io.tasteit.rest.service.model.RestaurantOpenHours;
 import io.tasteit.rest.service.model.RestaurantPromotionImages;
 import io.tasteit.rest.service.model.WeekdaysOpenHour;
+import io.tasteit.rest.service.model.WeekdaysOpenHours;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class GetRestaurantResponse {
 
@@ -189,8 +191,12 @@ public class GetRestaurantResponse {
         restaurantPromotionImages.setImagesRepoUrls(imagesRepoUrls);
         restaurant.setRestaurantPromotionImages(restaurantPromotionImages);
 
-        RestaurantOpenHours restaurantOpenHours = new RestaurantOpenHours();
-        restaurantOpenHours.setOpenHours(openHours);
+        Map<String, WeekdaysOpenHours> restaurantOpenHours = new HashMap<>();
+        for (Entry<String, List<WeekdaysOpenHour>> openHour : openHours.entrySet()) {
+            WeekdaysOpenHours weekdaysOpenHours = new WeekdaysOpenHours();
+            weekdaysOpenHours.setWeekdaysOpenHours(openHour.getValue());
+            restaurantOpenHours.put(openHour.getKey(), weekdaysOpenHours);
+        }
         restaurant.setRestaurantOpenHours(restaurantOpenHours);
 
         return restaurant;
