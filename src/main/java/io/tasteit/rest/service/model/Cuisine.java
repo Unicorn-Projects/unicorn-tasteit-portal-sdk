@@ -17,7 +17,7 @@ public class Cuisine {
     private String imageUrl;
     private Float imageRatio;
     private Float price;
-    private Boolean unavailable;
+    private Boolean availability;
     private Long favorites;
     
     public String getCuisineId() {
@@ -96,11 +96,11 @@ public class Cuisine {
     public void setPrice(Float price) {
         this.price = price;
     }
-    public Boolean getUnavailable() {
-        return unavailable;
+    public Boolean getAvailability() {
+        return availability;
     }
-    public void setUnavailable(Boolean unavailable) {
-        this.unavailable = unavailable;
+    public void setAvailability(Boolean availability) {
+        this.availability = availability;
     }
     public Long getFavorites() {
         return favorites;
@@ -139,7 +139,7 @@ public class Cuisine {
                 + ((menuCategory == null) ? 0 : menuCategory.hashCode());
         result = prime * result + ((price == null) ? 0 : price.hashCode());
         result = prime * result
-                + ((unavailable == null) ? 0 : unavailable.hashCode());
+                + ((availability == null) ? 0 : availability.hashCode());
         result = prime * result
                 + ((vegetarian == null) ? 0 : vegetarian.hashCode());
         return result;
@@ -219,10 +219,10 @@ public class Cuisine {
                 return false;
         } else if (!price.equals(other.price))
             return false;
-        if (unavailable == null) {
-            if (other.unavailable != null)
+        if (availability == null) {
+            if (other.availability != null)
                 return false;
-        } else if (!unavailable.equals(other.unavailable))
+        } else if (!availability.equals(other.availability))
             return false;
         if (vegetarian == null) {
             if (other.vegetarian != null)
@@ -241,7 +241,7 @@ public class Cuisine {
                 + menuCategory + ", vegetarian=" + vegetarian + ", glutenFree="
                 + glutenFree + ", imageVersion=" + imageVersion + ", imageUrl="
                 + imageUrl + ", imageRatio=" + imageRatio + ", price=" + price
-                + ", unavailable=" + unavailable + ", favorites=" + favorites
+                + ", availability=" + availability + ", favorites=" + favorites
                 + "]";
     }
 }
