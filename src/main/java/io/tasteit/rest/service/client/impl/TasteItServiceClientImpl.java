@@ -2,10 +2,12 @@ package io.tasteit.rest.service.client.impl;
 
 import io.tasteit.rest.service.client.TasteItServiceClient;
 import io.tasteit.rest.service.model.AuthenticationToken;
+import io.tasteit.rest.service.model.Cuisine;
 import io.tasteit.rest.service.model.exception.TasteItClientException;
 import io.tasteit.rest.service.model.exception.TasteItServiceException;
 import io.tasteit.rest.service.model.request.DeletePromotionImageRequest;
 import io.tasteit.rest.service.model.request.GenerateTokenRequest;
+import io.tasteit.rest.service.model.request.GetCuisineRequest;
 import io.tasteit.rest.service.model.request.GetRestaurantRequest;
 import io.tasteit.rest.service.model.request.UploadPromotionImageRequest;
 import io.tasteit.rest.service.model.request.ResetCustomerRequest;
@@ -165,6 +167,19 @@ public class TasteItServiceClientImpl implements TasteItServiceClient {
 
         GetRestaurantMenuResponse restaurantMenu = ResponseHandler.readEntity(response, GetRestaurantMenuResponse.class);
         return restaurantMenu;
+    }
+    
+    @Override
+    public Cuisine getCuisine(GetCuisineRequest request, AuthenticationToken token) 
+            throws TasteItClientException, TasteItServiceException {
+        if (request == null || token == null) {
+            throw new TasteItClientException("one of the paramter is null", null);
+        }
+        Response response = getWithAuthentication("/v1/customers/cuisine", 
+                ImmutableMap.of(GetCuisineRequest.GEO_RESTAURANT_CUISINE_ID, request.getCuisineId()), token);
+
+        Cuisine cuisine = ResponseHandler.readEntity(response, Cuisine.class);
+        return cuisine;
     }
 
     @Override

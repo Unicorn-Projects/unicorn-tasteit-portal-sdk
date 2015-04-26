@@ -10,10 +10,12 @@ import java.util.Arrays;
 import javax.imageio.ImageIO;
 
 import io.tasteit.rest.service.model.AuthenticationToken;
+import io.tasteit.rest.service.model.Cuisine;
 import io.tasteit.rest.service.model.exception.TasteItClientException;
 import io.tasteit.rest.service.model.exception.TasteItServiceException;
 import io.tasteit.rest.service.model.request.DeletePromotionImageRequest;
 import io.tasteit.rest.service.model.request.GenerateTokenRequest;
+import io.tasteit.rest.service.model.request.GetCuisineRequest;
 import io.tasteit.rest.service.model.request.GetRestaurantRequest;
 import io.tasteit.rest.service.model.request.RevokeTokenRequest;
 import io.tasteit.rest.service.model.request.UpdatePromotionImageDisplayOrderRequest;
@@ -37,6 +39,9 @@ public class Example {
             
             GetRestaurantMenuResponse restaurantMenu = client.getRestaurantMenu(new GetRestaurantRequest("c23n-83440033214612255"), token);
             System.out.println(restaurantMenu);
+            
+            Cuisine cuisine = client.getCuisine(new GetCuisineRequest("c23n-83440033214612255-0001"), token);
+            System.out.println(cuisine);
             
             client.addPromotionImage(new UploadPromotionImageRequest(restaurant.getRestaurantId(), 
             		getTestImage("src/test/resources/img/Test_image_input_1.jpg")), token);
