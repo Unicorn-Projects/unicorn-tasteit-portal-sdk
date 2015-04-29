@@ -1,8 +1,7 @@
 package io.tasteit.rest.service.model.request;
 
-import io.tasteit.rest.service.model.WeekdaysOpenHour;
+import io.tasteit.rest.service.model.WeekdaysOpenHours;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
@@ -12,26 +11,29 @@ import org.apache.commons.lang3.StringUtils;
 
 public class UpdateRestaurantOpenHoursRequest {
 
-    @Nonnull private String restaurantId;
-    @Nullable private Map<String, List<WeekdaysOpenHour>> openHours;
+    @Nonnull
+    private String restaurantId;
+    @Nullable
+    private Map<String, WeekdaysOpenHours> openHours;
 
     public UpdateRestaurantOpenHoursRequest(@Nonnull String restaurantId) {
-        if (StringUtils.isBlank(restaurantId)) {
-            throw new IllegalArgumentException("restaurantId should not be null or empty");
-        }
-        this.restaurantId = restaurantId;
+	if (StringUtils.isBlank(restaurantId)) {
+	    throw new IllegalArgumentException(
+		    "restaurantId should not be null or empty");
+	}
+	this.restaurantId = restaurantId;
     }
 
     public String getRestaurantId() {
-        return restaurantId;
+	return restaurantId;
     }
 
-    public Map<String, List<WeekdaysOpenHour>> getOpenHours() {
-        return openHours;
+    public Map<String, WeekdaysOpenHours> getOpenHours() {
+	return openHours;
     }
 
-    public void setOpenHours(Map<String, List<WeekdaysOpenHour>> openHours) {
-        this.openHours = openHours;
+    public void setOpenHours(Map<String, WeekdaysOpenHours> openHours) {
+	this.openHours = openHours;
     }
 
 }
